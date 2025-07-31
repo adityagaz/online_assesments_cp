@@ -118,6 +118,7 @@ public class min_ways_to_reach_end_via_prime_teleportation {
 
 
 
+
     static int solve( int [] arr) {
         // your solution here
         int n = arr.length;
