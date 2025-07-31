@@ -1,0 +1,90 @@
+<snippet>
+  <content><![CDATA[
+import java.io.*;
+import java.util.*;
+
+public class ${TM_FILENAME/(.*)\..*/$1/} {
+    static PrintWriter out;
+
+    public static void main(String[] args) throws Exception {
+        setupIO();
+        FastReader sc = new FastReader();
+
+
+
+        out.flush();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private static void setupIO() throws Exception {
+        File cwd  = new File(System.getProperty("user.dir"));
+        File root = cwd.getParentFile();
+        System.setIn(new FileInputStream(new File(root, "input.txt")));
+        System.setOut(new PrintStream(new FileOutputStream(new File(root, "output.txt"))));
+        out = new PrintWriter(System.out);
+    }
+
+
+
+
+
+    // —— FASTREADER ——    
+    static class FastReader {
+        BufferedReader b;
+        StringTokenizer s;
+        public FastReader() {
+            b = new BufferedReader(new InputStreamReader(System.in));
+        }
+        String next() {
+            while (s == null || !s.hasMoreElements()) {
+                try {
+                    s = new StringTokenizer(b.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return s.nextToken();
+        }
+        int nextInt()    { return Integer.parseInt(next()); }
+        long nextLong()  { return Long.parseLong(next()); }
+        double nextDouble(){ return Double.parseDouble(next()); }
+        String nextLine() {
+            String str = "";
+            try {
+                if (s != null && s.hasMoreTokens())
+                    str = s.nextToken("\n");
+                else
+                    str = b.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }
+}
+]]></content>
+  <tabTrigger>java</tabTrigger>
+  <scope>source.java</scope>
+  <description>Java template with FastReader and setupIO()</description>
+</snippet>
