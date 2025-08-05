@@ -26,7 +26,27 @@ public class at_coder_c {
         }
         dp = new long[n][4];
         for( long [] i : dp) Arrays.fill(i, -1);
-        System.out.println(rec(happiness, 0, n, 0));
+        // System.out.println(rec(happiness, 0, n, 0));
+        bottomUp(happiness);
+    }
+
+    static void bottomUp(int [][] happiness) {
+        int n = happiness.length;
+        long [] dp_a = new long[n+1];
+        long [] dp_b = new long[n+1];
+        long [] dp_c = new long[n+1];
+
+        dp_a[1] = happiness[0][0];
+        dp_b[1] = happiness[0][1];
+        dp_c[1] = happiness[0][2];
+
+        for(int i = 2 ; i <= n ;i++) {
+            dp_a[i] = happiness[i-1][0] + Math.max(dp_b[i-1] , dp_c[i-1]);
+            dp_b[i] = happiness[i-1][1] + Math.max(dp_a[i-1] , dp_c[i-1]);
+            dp_c[i] = happiness[i-1][2] + Math.max(dp_b[i-1] , dp_a[i-1]);
+        }
+
+        System.out.println(Math.max(dp_a[n] , Math.max(dp_b[n], dp_c[n])));
     }
 
     static long [][] dp;
