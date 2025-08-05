@@ -1,185 +1,116 @@
+// package TREES;
+// TOPICS - COMBINATORICS | TREES | CODEFORCES 1800 | DFS
+
 import java.io.*;
 import java.util.*;
 
+public class combinatorics_trees {
+    static List<List<Integer>> tree;
 
-// Amazing leetcode problem 
-//-- https://leetcode.com/problems/minimum-jumps-to-reach-end-via-prime-teleportation/
-
-public class min_ways_to_reach_end_via_prime_teleportation {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
-
+    static int cnt;
+    static int [] left_right;
+    static int bN = 0 , bP = 0 , bD = 0;
     public static void main(String[] args) throws Exception {
         setupIO();
         out = new PrintWriter(System.out);
         FastReader sc = new FastReader();
-        int n = sc.nextInt();
-        
-        int [] arr = new int[n];
-
-        for( int i = 0 ; i < n ; i++ )  {
-        	arr[i]= sc.nextInt();
-        	
-        }
-        
-        int ans = solve(arr);
-
-
-        // List<List<Integer>> mat = new ArrayList<>();
-        // int [] arr = {1,2,3,4,5};
-        // for( int i = 0; i < 2; i++) mat.add(new ArrayList<>());
-        // for( int i = 0; i < arr.length ; i++) {
-        // 	mat.get(i).add(10);
-        // }
-        // System.out.println(mat);
-
-
-        out.flush();
+        // int t = 1;
+        int t = sc.nextInt();
+        while(t-- > 0) solve(sc);
+        out.flush(); 
     }
 
- static int solve2( int [] arr) {
+    static void solve(FastReader sc ) {
+            bN= 0;
+            bP =0;
+            bD =0;
+            tree = new ArrayList<>();
+            int n=sc.nextInt();
+            for( int i  = 0 ; i<= n+1 ; i++ ) {
+                tree.add(new ArrayList<>());
+            }
+            for( int i = 0 ; i < n-1 ; i++ ) {
+                int u = sc.nextInt();int v =sc.nextInt();
+                tree.get(u).add(v);
+                tree.get(v).add(u);
+            }
 
- 	//brute force code 
-        // your solution here
-        int n = arr.length;
-        int max = Integer.MIN_VALUE;
-        Map<Integer , List<Integer>> map = new HashMap<>();
-        for( int i = 0; i < arr.length ;i++ ){
-        	max = Math.max(max , arr[i]);
-        	map.computeIfAbsent(arr[i] , x-> new ArrayList<>()).add(i);
-        }
-        
+            left_right = new int[2];
+            int leaves = 0;
 
-
-        boolean [] primes = sieve(max+1);
-        List<List<int [] >> g = new ArrayList<>();
-        for( int i = 0 ; i <= (arr.length + primes.length ); i++ ) {
-        	g.add(new ArrayList <>());
-        }
-        int g_node = n;
-		for (int i = 0; i + 1 < n; i++) {
-		    g.get(i).add(new int[]{i+1, 1});
-		    g.get(i+1).add(new int[]{i,   1});
-		    if (primes[arr[i]]) {
-		        g.get(i).add(new int[]{g_node, 0});
-		        g.get(g_node).add(new int[]{i, 1});
-		        for (int mul = arr[i]; mul <= max; mul += arr[i]) {
-		            List<Integer> hits = map.get(mul);
-		            if (hits != null) {
-		                for (int j : hits) {
-		                    if (j != i) {
-		                        g.get(g_node).add(new int[]{j, 1});
-		                    }
-		                }
-		                hits.clear();
-		            }
-		        }
-		        g_node++;
-		    }
-		}
-        
+            for( int i= 2 ; i <= n ; i++) {
+                if(tree.get(i).size()==1 ) leaves++; 
+            }
+            if(leaves <=1 ) {
+                System.out.println(powMod(2, n, mod));
+                return;
+            }
+            if(leaves > 2) {
+                System.out.println(0);
+                return;
+            }
 
 
-        int [] minDis = new int[n+g_node+1];
-        Arrays.fill(minDis ,(int)1e7);
-        minDis[0] = 0;
-        Queue<int []> q= new LinkedList<>();
-        q.add(new int [] {0 , 0});
-        while(!q.isEmpty()) {
-        	int [] cur = q.poll();
-        	int idx = cur[0];
-        	int level = cur[1];
-        	if(minDis[idx] < level) continue;
-        	for(int [] node : g.get(idx)) {
-        		
-        			if(level + node[1] < minDis[node[0]]) {
-        				minDis[node[0]] = level+ node[1];
-        				q.add(new int [] {node[0] , level + node[1]});
-        			}
-        	}
+            dfs(1 , 0, 1);
+            int left = 0;
+            int right = 0;
+            int cnt = bD;
+            int offset =0;
+            for( int i : tree.get(bN)) {
+                if(i != bP){
+                    left_right[offset++] = i;
+                }
+            }
 
-        }
-        printl(minDis);
-        return minDis[n-1];
-    
-}
+            left = dfs_len(left_right[0], bN );
+            right = dfs_len(left_right[1] , bN);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    static int solve( int [] arr) {
-        // your solution here
-        int n = arr.length;
-        int max = Integer.MIN_VALUE;
-        for( int i = 0; i < arr.length ;i++ ){
-        	max = Math.max(max , arr[i]);
-        }
-        boolean [] primes = sieve(max+1);
-        List<List<int [] >> g = new ArrayList<>();
-        for( int i = 0 ; i <= (arr.length + primes.length ); i++ ) {
-        	g.add(new ArrayList <>());
-        }
-        int g_node = n;
-        for( int i = 0; i + 1< n ; i++ ) {
-        	g.get(i).add(new int[] {i+1 , 1});
-        	g.get(i+1).add(new int [] {i , 1});
-        	if(primes[arr[i]])  {
-        		g.get(g_node).add(new int [] {i , 1});
-        		g.get(i).add(new int [] { g_node , 0});
-        		for( int j = 0 ; j < n; j++ ) {
-        			if(i==j)continue;
-        			if((arr[j] % arr[i] )== 0 ) {
-        				//it's a multiple
-        				g.get(g_node).add(new int [] {j , 1});
-        			}
-        		}
-        		g_node++;
-        	}
-        }
-        for ( int i = 0 ; i +1< n ; i++) {
-        	if((arr[i] % arr[n-1]) == 0 ) {
-        		g.get(g_node).add(new int [] {i , 1});
-        	}
-        }
-
-
-        int [] minDis = new int[n+g_node+1];
-        Arrays.fill(minDis ,(int)1e7);
-        minDis[0] = 0;
-        Queue<int []> q= new LinkedList<>();
-        q.add(new int [] {0 , 0});
-        while(!q.isEmpty()) {
-        	int [] cur = q.poll();
-        	int idx = cur[0];
-        	int level = cur[1];
-        	if(minDis[idx] < level) continue;
-        	for(int [] node : g.get(idx)) {
-        		
-        			if(level + node[1] < minDis[node[0]]) {
-        				minDis[node[0]] = level+ node[1];
-        				q.add(new int [] {node[0] , level + node[1]});
-        			}
-        	}
-
-        }
-        printl(minDis);
-        return minDis[n-1];
+            long ans =powMod(2, cnt, mod); 
+            int way1 = Math.max(0 , Math.abs(left - right) -1);
+            int way2 = Math.abs(left  - right);
+            ans = ((long) ans % mod  *  (powMod(2,way1, mod)  + powMod(2,way2, mod)) %mod)%mod ;
+            // if(left - right == 0) {
+            //     ans =  ((long) ans * 2 ) % mod;
+            // }
+            System.out.println(ans);
     }
 
+    static int dfs_len(int start , int  parent) 
+    {
+        int cnt  = 1;
+        for( int i : tree.get(start)) {
+            if(i == parent) continue;
+            cnt += dfs_len(i , start);
+        }
+        return cnt;
+    }
+
+
+
+     static void dfs(int start , int parent , int depth) {
+
+        int child = 0;
+        for( int i : tree.get(start)) {
+            if(i!= parent) child++;
+        }
+        if(child >= 2 && bN ==0 ) {
+            bN = start;
+            bP = parent;
+            bD = depth;
+            return;
+        }
+        for( int i : tree.get(start)) {
+            if(i!= parent) {
+                dfs(i , start , depth+1);
+            }
+            if(bN != 0) return;
+        }
+
+        
+    }
     // —— MODULAR ARITHMETIC ——
     private static long modExp(long a, long e, long m) { long res = 1; a %= m; while (e > 0) { if ((e & 1) == 1) res = res * a % m; a = a * a % m; e >>= 1; } return res; }
     private static long invMod(long x)                 { return modExp(x, mod - 2, mod); }
@@ -236,7 +167,6 @@ private static void setupIO() throws Exception {
     System.setIn(new FileInputStream(inputPath));
     System.setOut(new PrintStream(new FileOutputStream(outputPath)));
 }
-
 
     // —— FASTREADER ——
     static class FastReader {

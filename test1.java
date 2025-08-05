@@ -1,11 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-
-// Amazing leetcode problem 
-//-- https://leetcode.com/problems/minimum-jumps-to-reach-end-via-prime-teleportation/
-
-public class min_ways_to_reach_end_via_prime_teleportation {
+public class test1 {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
@@ -13,171 +9,17 @@ public class min_ways_to_reach_end_via_prime_teleportation {
         setupIO();
         out = new PrintWriter(System.out);
         FastReader sc = new FastReader();
-        int n = sc.nextInt();
-        
-        int [] arr = new int[n];
 
-        for( int i = 0 ; i < n ; i++ )  {
-        	arr[i]= sc.nextInt();
-        	
-        }
-        
-        int ans = solve(arr);
-
-
-        // List<List<Integer>> mat = new ArrayList<>();
-        // int [] arr = {1,2,3,4,5};
-        // for( int i = 0; i < 2; i++) mat.add(new ArrayList<>());
-        // for( int i = 0; i < arr.length ; i++) {
-        // 	mat.get(i).add(10);
-        // }
-        // System.out.println(mat);
 
 
         out.flush();
     }
 
- static int solve2( int [] arr) {
-
- 	//brute force code 
+    static void solve(int[] a, int[] b, int n, int m) {
         // your solution here
-        int n = arr.length;
-        int max = Integer.MIN_VALUE;
-        Map<Integer , List<Integer>> map = new HashMap<>();
-        for( int i = 0; i < arr.length ;i++ ){
-        	max = Math.max(max , arr[i]);
-        	map.computeIfAbsent(arr[i] , x-> new ArrayList<>()).add(i);
-        }
-        
-
-
-        boolean [] primes = sieve(max+1);
-        List<List<int [] >> g = new ArrayList<>();
-        for( int i = 0 ; i <= (arr.length + primes.length ); i++ ) {
-        	g.add(new ArrayList <>());
-        }
-        int g_node = n;
-		for (int i = 0; i + 1 < n; i++) {
-		    g.get(i).add(new int[]{i+1, 1});
-		    g.get(i+1).add(new int[]{i,   1});
-		    if (primes[arr[i]]) {
-		        g.get(i).add(new int[]{g_node, 0});
-		        g.get(g_node).add(new int[]{i, 1});
-		        for (int mul = arr[i]; mul <= max; mul += arr[i]) {
-		            List<Integer> hits = map.get(mul);
-		            if (hits != null) {
-		                for (int j : hits) {
-		                    if (j != i) {
-		                        g.get(g_node).add(new int[]{j, 1});
-		                    }
-		                }
-		                hits.clear();
-		            }
-		        }
-		        g_node++;
-		    }
-		}
-        
-
-
-        int [] minDis = new int[n+g_node+1];
-        Arrays.fill(minDis ,(int)1e7);
-        minDis[0] = 0;
-        Queue<int []> q= new LinkedList<>();
-        q.add(new int [] {0 , 0});
-        while(!q.isEmpty()) {
-        	int [] cur = q.poll();
-        	int idx = cur[0];
-        	int level = cur[1];
-        	if(minDis[idx] < level) continue;
-        	for(int [] node : g.get(idx)) {
-        		
-        			if(level + node[1] < minDis[node[0]]) {
-        				minDis[node[0]] = level+ node[1];
-        				q.add(new int [] {node[0] , level + node[1]});
-        			}
-        	}
-
-        }
-        printl(minDis);
-        return minDis[n-1];
-    
-}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    static int solve( int [] arr) {
-        // your solution here
-        int n = arr.length;
-        int max = Integer.MIN_VALUE;
-        for( int i = 0; i < arr.length ;i++ ){
-        	max = Math.max(max , arr[i]);
-        }
-        boolean [] primes = sieve(max+1);
-        List<List<int [] >> g = new ArrayList<>();
-        for( int i = 0 ; i <= (arr.length + primes.length ); i++ ) {
-        	g.add(new ArrayList <>());
-        }
-        int g_node = n;
-        for( int i = 0; i + 1< n ; i++ ) {
-        	g.get(i).add(new int[] {i+1 , 1});
-        	g.get(i+1).add(new int [] {i , 1});
-        	if(primes[arr[i]])  {
-        		g.get(g_node).add(new int [] {i , 1});
-        		g.get(i).add(new int [] { g_node , 0});
-        		for( int j = 0 ; j < n; j++ ) {
-        			if(i==j)continue;
-        			if((arr[j] % arr[i] )== 0 ) {
-        				//it's a multiple
-        				g.get(g_node).add(new int [] {j , 1});
-        			}
-        		}
-        		g_node++;
-        	}
-        }
-        for ( int i = 0 ; i +1< n ; i++) {
-        	if((arr[i] % arr[n-1]) == 0 ) {
-        		g.get(g_node).add(new int [] {i , 1});
-        	}
-        }
-
-
-        int [] minDis = new int[n+g_node+1];
-        Arrays.fill(minDis ,(int)1e7);
-        minDis[0] = 0;
-        Queue<int []> q= new LinkedList<>();
-        q.add(new int [] {0 , 0});
-        while(!q.isEmpty()) {
-        	int [] cur = q.poll();
-        	int idx = cur[0];
-        	int level = cur[1];
-        	if(minDis[idx] < level) continue;
-        	for(int [] node : g.get(idx)) {
-        		
-        			if(level + node[1] < minDis[node[0]]) {
-        				minDis[node[0]] = level+ node[1];
-        				q.add(new int [] {node[0] , level + node[1]});
-        			}
-        	}
-
-        }
-        printl(minDis);
-        return minDis[n-1];
     }
 
     // —— MODULAR ARITHMETIC ——
@@ -229,14 +71,13 @@ public class min_ways_to_reach_end_via_prime_teleportation {
     private static long powMod(long x,long y,long p) { long r=1; x%=p; while(y>0){ if((y&1)==1) r=r*x%p; x=x*x%p; y>>=1;} return r; }
     private static long pow(long a,long b)           { long r=1; while(b>0){ if((b&1)==1) r=r*a%mod; a=a*a%mod; b>>=1;} return r; }
 
-private static void setupIO() throws Exception {
-    String inputPath  = "C:\\Users\\adity\\Documents\\DSA_OA\\input.txt";
-    String outputPath = "C:\\Users\\adity\\Documents\\DSA_OA\\output.txt";
-
-    System.setIn(new FileInputStream(inputPath));
-    System.setOut(new PrintStream(new FileOutputStream(outputPath)));
-}
-
+    private static void setupIO() throws Exception {
+        File cwd = new File(System.getProperty("user.dir"));
+        File root = cwd.getParentFile();
+        System.setIn(new FileInputStream(new File(root, "input.txt")));
+        System.setOut(new PrintStream(new FileOutputStream(new File(root, "output.txt")))));
+        
+    }
 
     // —— FASTREADER ——
     static class FastReader {
