@@ -1,6 +1,8 @@
 package minimization;
 import java.util.*;
 public class longest_arithmetic_progression {
+
+    // Geeks for geeks
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         int n = s.nextInt();
@@ -13,6 +15,7 @@ public class longest_arithmetic_progression {
     }
 
     static void solve(int []arr , int n) {
+        Arrays.sort(arr);
         int [] dp= new int[n+1];
         arr[0] = Integer.MIN_VALUE;
         Arrays.fill(dp, 1);
@@ -22,7 +25,6 @@ public class longest_arithmetic_progression {
             int max = 1;
             for( int j = i+1 ; j <= n; j++ ) {
                 int temp = 2;
-
                 int d = arr[j]-arr[i];
                 int cnt = 2;
                 while(d*cnt + arr[i] <= arr[n]) {
