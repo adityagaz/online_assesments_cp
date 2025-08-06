@@ -3,7 +3,6 @@ package maximization;
 import java.util.*;
 
 public class google_choose_from_two_arrays_at_max_2 {
-
     /*
      * Problem :-
      * 
@@ -58,12 +57,11 @@ public class google_choose_from_two_arrays_at_max_2 {
      * Total = 10 + 10 + 4 = 25.
      */
 
-
-
      /*
         ANALYSIS -- 
         It is evident that it is a dynamic programming problem because we have choices to pick and we never 
-        know that if we pick two elements the same array might have a more valuable coin to pick and we can't do
+        know that if we pick two elements the same array might have a more valuable coin in the next index
+         to pick and we can't do
         So, the crux is we are unaware of the future states so a greedy solution won't work here.
         Now think of DP
         Always form the state as what is required in the question
