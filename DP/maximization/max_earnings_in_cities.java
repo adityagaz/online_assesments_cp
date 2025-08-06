@@ -36,8 +36,30 @@ public class max_earnings_in_cities {
             dp_a[i] = Math.max(dp_a[i-1] + arr[i], dp_b[i-2]+arr[i]);
             dp_b[i] = Math.max(dp_b[i-1] + brr[i], dp_a[i-2]+brr[i]);
         }
-        System.out.println(Arrays.toString(dp_a));
-        System.out.println(Arrays.toString(dp_b));
         System.out.println(Math.max(dp_a[n], dp_b[n]));
     }
+
+    static int followUP(int [] a , int [] b , int [] c) {
+        int n = a.length;
+        int [] dp_a = new int[n+1];
+        int [] dp_b = new int[n+1];
+        int [] dp_c = new int[n+1];
+
+        dp_a[1] = a[1];
+        dp_b[1] = b[1];
+        dp_c[1] = c[1];
+        dp_a[2] = Math.max(a[2] + dp_a[1],  a[2]);
+        dp_b[2] = Math.max(b[2] + dp_b[1],  b[2]);
+        dp_c[2] = Math.max(c[2] + dp_c[1],  c[2]);
+
+        for( int i=3 ;i<=n ;i++) {
+            dp_a[i] = a[i] + Math.max(dp_a[i-1] , Math.max(dp_b[i-2] , dp_c[i-2]));
+            dp_a[i] = c[i] + Math.max(dp_c[i-1] , Math.max(dp_a[i-2] , dp_b[i-2]));
+            dp_b[i] = b[i] + Math.max(dp_b[i-1] , Math.max(dp_a[i-2] , dp_a[i-2]));
+        }
+        int ans = Math.max(dp_a[n], Math.max(dp_b[n], dp_c[n]));
+        System.out.println(ans);    
+
+        return ans;
+     }
 }
