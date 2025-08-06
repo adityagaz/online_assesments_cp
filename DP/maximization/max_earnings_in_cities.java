@@ -59,7 +59,7 @@ public class max_earnings_in_cities {
         }
         int ans = Math.max(dp_a[n], Math.max(dp_b[n], dp_c[n]));
         System.out.println(ans);    
-
+        //T.C - O(N) , SC - O(3*N)
         return ans;
      }
 }
