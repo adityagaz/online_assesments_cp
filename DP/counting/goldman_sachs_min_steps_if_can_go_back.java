@@ -27,12 +27,6 @@ For the array b = [2, 5, 8], what is the minimum cost to reach index 3 or beyond
             arr[i] = s.nextInt();
         }
         int [][] dp = new int[n+1][3];
-
-        dp[1][1]= arr[1];
-        dp[1][2]= (int)1e8;
-        
-        dp[2][1] = (int)1e8;
-        dp[2][2]= arr[1] + arr[3] + arr[2];
         /*
           dp[3] = arr[1] + arr[3] or arr[4] + arr[3] --> arr[3] + math.min(dp[i-2] , dp[i+1]);
 
@@ -112,9 +106,6 @@ For the array b = [2, 5, 8], what is the minimum cost to reach index 3 or beyond
         dp[n][1] = arr[n] + Math.min(dp[n-2][1] , dp[n-2][2]);
         dp[n][2] = (int)1e8;
 
-        System.out.println(Math.min(Math.min(dp[n-1][1] , dp[n-1][2]) , dp[n][1]));
-
-
-        
+        System.out.println(Math.min(Math.min(dp[n-1][1] , dp[n-1][2]) , dp[n][1]));        
     }
 }
