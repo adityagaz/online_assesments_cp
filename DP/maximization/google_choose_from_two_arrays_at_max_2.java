@@ -1,4 +1,4 @@
-// package maximization;
+package maximization;
 
 import java.util.*;
 
@@ -206,7 +206,7 @@ public class google_choose_from_two_arrays_at_max_2 {
             }
             int[] dp_b = new int[n + 1];
             int[] dp_c = new int[n + 1];
-
+            
             dp_b[1] = b[1];
             dp_c[1] = c[1];
             for (int i = 2; i <= n; i++) {
