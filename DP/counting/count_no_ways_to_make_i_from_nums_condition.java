@@ -7,8 +7,36 @@ import java.util.Scanner;
   TOPICS - DP | MATH
 
 Problem - 
+You are given an unlimited supply of coins of denominations 1, 2 and 6, and up to two coins of denomination 4.
+Your task is to count the number of distinct combinations (order of coins does not matter) that sum up exactly to a target value y.
+Input Format
+The first line contains a single integer T —the number of test cases.
+Each of the next T lines contains one integer y —the target sum for that test case.
+Output Format
+For each test case, output a single integer—the number of combinations that sum to y under the given constraints.
+Constraints
+1 ≤ T ≤ 100
+0 ≤ y ≤ 1000000
 
-  Approach-
+TEST CASES -
+6 <-- denotes no of test cases
+0
+3
+4
+5
+6
+10
+
+OUTPUT -
+1
+3
+6
+10
+19
+191
+
+
+Approach-
 dp[i] -- represents no of ways to make number i from 1 , 2 , 4, 6 such that 4 is used atmost 2 times
 dp[y] -- final answer
 
@@ -20,7 +48,6 @@ if(i-2 >=0) dp[i] += dp[i-2]
 if(i-6 >= 0) dp[i] += dp[i-6] 
 if(i-4 >= 0 && used < 2) dp[i] += dp[i-4] used++;
 
-  
 for y =1 
 dp[1] = 1 - 1 = 0 dp[1] = 0 + 1 = 1
 for y = 2 
