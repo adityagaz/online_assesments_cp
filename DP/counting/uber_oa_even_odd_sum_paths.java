@@ -3,13 +3,10 @@ import java.util.*;
 public class uber_oa_even_odd_sum_paths {
 
     /*
-      Problem 
+Problem 
 Given two arrays; a and b -> you can start at index 1 from any array and end your journey at index n on an array 
-
 -> If you are at i you can can jump to i+1 on same array or different array 
-
 -> -1000000000 <= a[i],b[i]<= 10000000000 
-
 -> Please output total number of journeys which have even sum and total number of journeys which have odd sum; 
 
      */
@@ -90,7 +87,7 @@ Given two arrays; a and b -> you can start at index 1 from any array and end you
         for( int i = 2; i <= n ; i++ ) {
             if(a[i]%2==0){
                 dp_a[i][0]  = dp_a[i-1][0] + dp_b[i-1][0];
-                dp_b[i][1] = dp_a[i-1][1] + dp_b[i-1][1];
+                dp_a[i][1] = dp_a[i-1][1] + dp_b[i-1][1];
             }
             else {
                 dp_a[i][0] = dp_a[i-1][1] + dp_b[i-1][1];
