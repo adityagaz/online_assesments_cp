@@ -3,7 +3,6 @@ package maximization;
 import java.util.*;
 
 public class barclays_maximization {
-
     /*
      * Company: Barclays
      * Stephen is doing an internship in a company for N days. Each day, he may
@@ -42,39 +41,32 @@ public class barclays_maximization {
 12
 1 2
 5 10
-
 2 2
 5  7
 3  4
-
 3 2
 1  2
 3  5
 4  7
-
 4 2
 1  3
 2  4
 3  5
 4  6
-
 5 2
 3  9
 1  5
 2  8
 6 10
 4  7
-
 3 2
 5  6
 5  6
 5  6
-
 3 2
 1 10
 1 10
 1 10
-
 6 2
 2 3
 2 3
@@ -82,7 +74,6 @@ public class barclays_maximization {
 2 3
 2 3
 2 3
-
 6 2
 1 100
 1 100
@@ -90,7 +81,6 @@ public class barclays_maximization {
 1 100
 1 100
 1 100
-
 7 2
 3  14
 1   5
@@ -99,22 +89,18 @@ public class barclays_maximization {
 4  16
 3   9
 8  12
-
 5 2
 1  100
 50  51
 1  100
 50  51
 1  100
-
 4 2
 10 11
 10 11
 10 11
 10 11
-
 Expected Output -
-
 10
 10
 9
@@ -149,16 +135,12 @@ Expected Output -
     }
 
     static int solve(int[] easy, int[] hard, int n) {
-
         int[] dp_easy = new int[n + 1];
         int[] dp_hard = new int[n + 1];
-
         dp_easy[1] = easy[1];
         dp_hard[1] = hard[1];
-
         // dp_easy[2] = easy[2] + Math.max(dp_easy[1], dp_hard[1]);
         // dp_hard[2] = hard[2];
-
         for (int i = 2; i <= n; i++) {
             dp_easy[i] = easy[i] + Math.max(dp_easy[i - 1], dp_hard[i - 1]);
             dp_hard[i] = hard[i] + Math.max(dp_hard[i - 2], dp_easy[i - 2]);
