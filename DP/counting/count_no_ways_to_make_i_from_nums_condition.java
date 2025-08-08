@@ -3,8 +3,8 @@ package counting;
 import java.util.Scanner;
 
 /*
-  COMPANY - MICROSOFT
-  TOPICS - DP | MATH
+COMPANY - MICROSOFT
+TOPICS - DP | MATH
 
 Problem - 
 You are given an unlimited supply of coins of denominations 1, 2 and 6, and up to two coins of denomination 4.
@@ -14,6 +14,7 @@ The first line contains a single integer T —the number of test cases.
 Each of the next T lines contains one integer y —the target sum for that test case.
 Output Format
 For each test case, output a single integer—the number of combinations that sum to y under the given constraints.
+
 Constraints
 1 ≤ T ≤ 100
 0 ≤ y ≤ 1000000
@@ -34,7 +35,6 @@ OUTPUT -
 10
 19
 191
-
 
 Approach-
 dp[i] -- represents no of ways to make number i from 1 , 2 , 4, 6 such that 4 is used atmost 2 times
@@ -57,7 +57,7 @@ dp[3] = dp[3 -1] + dp[3-2] = dp[2] + dp[1] = 2 + 1 = 3
 for y = 4 
 dp[4] = dp[3] + dp[2] + dp[0] = 3 + 2 + 1 = 6
 used = 1
- for y = 5 
+for y = 5 
 dp[5] = dp[4] + dp[3] + dp[1] = 6 + 3 + 1 = 10
 used = 2
 dp[6] = dp[5] + dp[4] + dp[0] = 10 + 6 + 1 = 17
@@ -71,11 +71,9 @@ public class count_no_ways_to_make_i_from_nums_condition {
         int t = s.nextInt();
         while (t-- > 0) {
             int y = s.nextInt();
-
             int[] dp = new int[y + 1];
             dp[0] = 1;
             int used = 0;
-
             for (int i = 1; i <= y; i++) {
                 if (i - 1 >= 0) {
                     dp[i] += dp[i - 1];
@@ -87,7 +85,6 @@ public class count_no_ways_to_make_i_from_nums_condition {
                 if (i - 6 >= 0)
                     dp[i] += dp[i - 6];
             }
-
             System.out.println(dp[y]);
         }
     }
