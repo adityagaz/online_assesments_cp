@@ -192,5 +192,9 @@ public class meesho_hard_multiple_states {
         dp[n][1][1] = Integer.MIN_VALUE;
         System.out.println(Math.max(Math.max(dp[n][0][0], dp[n][1][0]) , Math.max(dp[n][0][1], dp[n][1][1])));
     }
+ 
+    // Air  bnb OA is same as Meesho just it is that they have mentioned if no one is present then the cost is zero
+    // no[] = {0....0} and the total cost should be minimum.
+    
     
 }
