@@ -1,3 +1,4 @@
+package DSA_BEST_TEMPLATES;
 import java.io.*;
 import java.util.*;
 
@@ -6,7 +7,7 @@ public class no_of_subarray_sum_atmost_k {
     static PrintWriter out;
 
     public static void main(String[] args) throws Exception {
-        setupIO();
+        // setupIO();
         out = new PrintWriter(System.out);
         FastReader sc = new FastReader();
 
@@ -16,7 +17,9 @@ public class no_of_subarray_sum_atmost_k {
         	int n = sc.nextInt();
         	int k = sc.nextInt();
         	int [] arr = new int[n];
-        	for( int i = 0; i < n ; i++ )arr[i] =sc.nextInt();
+
+            
+
         	solve(arr , n ,k);
         }
         
@@ -50,7 +53,8 @@ public class no_of_subarray_sum_atmost_k {
     	*/
         // your solution here
 
-    	int tail = 0 , head = -1;
+
+        int tail = 0 , head = -1;
     	//ds
     	long sum =0;
 
@@ -58,10 +62,10 @@ public class no_of_subarray_sum_atmost_k {
     	while(tail <  n ) {
     		while(head+1 < n && (sum + arr[head+1] <= k)) {
     			head++;
-    			sum += arr[head];	
+    			sum += arr[head];
     		}
 
-    		ans += (head - tail +1);
+    		ans += (head -tail +1);
 
     		if(tail > head) {
     			tail++;

@@ -4,10 +4,15 @@ public class no_of_subarrays_having_no_distinct_elements_less_k {
     public static void main(String[] args) {
 
         Scanner s = new Scanner(System.in);
-        int n= s.nextInt();
-        int k= s.nextInt();
-        int [] arr = new int[n];
-        for ( int i  =0 ; i < n ; i++ ) arr[i] = s.nextInt();
+        int t = s.nextInt();
+
+        while(t-- >0){
+            int n= s.nextInt();
+            int k= s.nextInt();
+            int [] arr = new int[n];
+            for ( int i  =0 ; i < n ; i++ ) arr[i] = s.nextInt();
+            solve(arr , k , n);
+        }
         /*
 
         
@@ -63,17 +68,16 @@ public class no_of_subarrays_having_no_distinct_elements_less_k {
             // again the template is on fire....
 
             */
-            solveExactlyEqualK(arr , k , n);
          
     }
-    static int solve(int [] arr , int k , int n) {
+    static long solve(int [] arr , int k , int n) {
     
             int tail = 0 , head = -1;
 
             //ds
             Map<Integer , Integer> mp = new HashMap<>();   
             //ans
-            int ans =0;
+            long ans =0;
             //algo start
 
             while(tail < n) {
@@ -100,9 +104,7 @@ public class no_of_subarrays_having_no_distinct_elements_less_k {
                 }
 
              }
-
              System.out.println(ans);
-
              return ans;
     }
 

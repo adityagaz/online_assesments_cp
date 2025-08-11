@@ -1,6 +1,8 @@
 package DSA_BEST_TEMPLATES;
 import java.util.*;
 public class count_subarrays_score_less_than_k {
+
+    
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         int n = s.nextInt();
@@ -14,12 +16,10 @@ public class count_subarrays_score_less_than_k {
     }
     
     static long solve( int [] arr , int n , int k) {
-        
         long[] pref = new long[n];
         for (int i = 0; i < n; i++) {
             pref[i] = i == 0 ? arr[i] : arr[i] + pref[i - 1];
         }
-
         int tail = 0, head = -1;
         long ans = 0;
         long sum = 0; 
