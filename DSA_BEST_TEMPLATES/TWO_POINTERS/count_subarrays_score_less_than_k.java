@@ -1,4 +1,4 @@
-package DSA_BEST_TEMPLATES;
+package DSA_BEST_TEMPLATES.TWO_POINTERS;
 import java.util.*;
 public class count_subarrays_score_less_than_k {
 

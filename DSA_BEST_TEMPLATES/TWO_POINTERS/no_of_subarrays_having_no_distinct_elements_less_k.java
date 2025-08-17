@@ -1,4 +1,4 @@
-package DSA_BEST_TEMPLATES;
+package DSA_BEST_TEMPLATES.TWO_POINTERS;
 import java.util.*;
 public class no_of_subarrays_having_no_distinct_elements_less_k {
     public static void main(String[] args) {
