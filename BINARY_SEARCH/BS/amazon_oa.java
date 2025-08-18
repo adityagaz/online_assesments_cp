@@ -1,70 +1,57 @@
-package DSA_BEST_TEMPLATES.TWO_POINTERS;
+package BINARY_SEARCH.BS;
+
 import java.io.*;
 import java.util.*;
 
-public class no_of_subarray_sum_atmost_k {
+public class amazon_oa {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
+
     public static void main(String[] args) throws Exception {
         // setupIO();
         out = new PrintWriter(System.out);
         FastReader sc = new FastReader();
-        int t = sc.nextInt();
-        while(t-- > 0) {
-        	int n = sc.nextInt();
-        	int k = sc.nextInt();
-        	int [] arr = new int[n];
-        	solve(arr , n ,k);
+        int n = sc.nextInt();
+        System.out.println("hello");
+        int [] arr = new int[n+1];
+        for( int i = 1 ; i <=  n; i++ ) arr[i]= sc.nextInt();
+        int q = sc.nextInt();
+        int c = sc.nextInt();
+        long  [][] catalouge = new long[q+1][3];
+        for( int i = 1 ; i <= q ; i++) {
+        	catalouge[i][1]=sc.nextInt();
+        	catalouge[i][2]=sc.nextInt();
         }
+
+        System.out.println(Arrays.toString(arr));
+        System.out.println( q + " " + " " + c);
+        for( long [] i : catalouge ) {
+        	System.out.println(Arrays.toString(i)); 
+        }
+
+        solveBrute(arr, catalouge , q, n);
+ 
         out.flush();
     }
 
-    static void solve(  int [] arr , int n , int k) {
-    	/*
-    	ds -- ?
-    	we have to calc sum i mean maintain sum of elements for a subarray
+    static void solveBrute( int [] arr , long [][] catalouge , int q , int n) {
+    	long sum = Arrays.stream(arr).sum();
+    	Arrays.sort(arr);
+        long min = Long.MAX_VALUE;
+    	for( int query = 1 ; query <= q ;  query++) {
 
-    	we can use a variable as an element comes into the subarray we can 
-    	add the sum.
-
-    	simple count variable
-
-
-    	incoming -- ? 
-    	arr[next+1] + sum <= k -- then okay
-
-    		next++;
-    		sum += arr[next];
-
-		ans += (head - tail +1);
-
-		sum-=arr[tail]
-		tail++;
-    	*/
-        // your solution here
-        int tail = 0 , head = -1;
-    	//ds
-    	long sum =0;
-    	long ans = 0;
-    	while(tail <  n ) {
-    		while(head+1 < n && (sum + arr[head+1] <= k)) {
-    			head++;
-    			sum += arr[head];
+    		for( int num = 1 ; num <= n ; num++) {
+    			long c1=0 , c2=0;
+    			long diff1 = arr[num] - catalouge[query][1];
+    			c1 =  diff1 < 0 ?  -1L*diff1 : 0; 
+    			long diff2 = (sum - arr[num] )- catalouge[query][1];
+    			c2 = diff2 < 0  ? -1L*diff2 : 0;
+    			min = Math.min(min , c1+c2);
     		}
-    		ans += (head -tail +1);
+    		System.out.println(min);
+     	}
 
-    		if(tail > head) {
-    			tail++;
-    			head = tail-1;
-    		}	
-    		else {
-    			sum -= arr[tail];
-    			tail++;
-    		}
-
-    	}
-    	System.out.println(ans);
-
+     	
     }
 
     // —— MODULAR ARITHMETIC ——
@@ -124,6 +111,7 @@ private static void setupIO() throws Exception {
     System.setOut(new PrintStream(new FileOutputStream(outputPath)));
 }
 
+
     // —— FASTREADER ——
     static class FastReader {
         BufferedReader b; StringTokenizer s;
@@ -132,6 +120,6 @@ private static void setupIO() throws Exception {
         int nextInt()    { return Integer.parseInt(next()); }
         long nextLong()  { return Long.parseLong(next()); }
         double nextDouble(){ return Double.parseDouble(next()); }
-        String nextLine(){ String str=""; try{ if(s!=null&&s.hasMoreTokens()) str=s.nextToken("\n"); else str=b.readLine(); } catch(IOException e){ e.printStackTrace(); } return str; }
+        String nextLine(){ String str=""; try{ if(s!=null&&s.hasMoreTokens()) str=s.nextToken("\\n"); else str=b.readLine(); } catch(IOException e){ e.printStackTrace(); } return str; }
     }
 }

@@ -9,9 +9,7 @@ public class vowel_count {
     
 
     public static int helper(String word , int k) {
-
         int n = word.length();
-
         //ds
         Map<Character , Integer> map = new HashMap<>();
         //ans
