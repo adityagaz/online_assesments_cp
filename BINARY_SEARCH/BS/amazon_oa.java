@@ -54,6 +54,116 @@ public class amazon_oa {
      	
     }
 
+    static void solveBS(int [] arr , long [][] catalouge , int q , int n) {
+    	long sum = 0L;
+    	for( int i : arr) sum = (long)sum + i;
+
+    	Arrays.sort(arr);
+    	for( int query = 1 ; query <= q ;  query++) {
+    		int [] options= new int[4];
+    		long min = Long.MAX_VALUE;
+    		options[1] = bs(query  , n , arr , catalouge , sum , true);
+    		options[2] = bs(query  , n , arr , catalouge , sum , false);
+    		options[3] = 1; // choose any index doesnot matter
+
+    		for(int option = 1 ; option<= 3 ; option++) {
+    			long a = arr[options[option]];
+				long x = catalouge[query][1], y = catalouge[query][2];
+				long c1 = Math.max(0L, x - a);                
+				long c2 = Math.max(0L, y - (sum - a));
+				min = Math.min(min, c1 + c2);
+    		}
+    		
+    		System.out.println(min);
+     	}
+
+
+
+     	/*
+
+     	Author : Kumar K (RAM RAM)
+     	Student Approach - Aditya Shandilya 
+     	we have to minimize =  | arr[i] - x | +  | rem - y |
+
+     	where | | is a modulus -- >  
+     							| f(|x|) = x  , x >= 0 |
+     							|	     = -x , x <  0 |
+
+     	Four cases -- 
+			both +ve:
+
+     		a[i] -x + rem - y -> sum - (x+y) --> minimize -->  any index same answer
+
+     		first -ve:
+			
+			x - a[i] + rem - y -> rem - a[i] + x - y -- > sum - a[i] - a[i] + x - y
+													 -- > (sum + x - y) - 2a[i]
+													 	   \__________/   \___/
+													 	   	 constant      var
+
+													 	   	 It is a monotone
+
+
+			second -ve:
+
+			a[i] - x  + y - rem --> a[i] - rem + y - x -- > a[i] - (sum - a[i]) + y - x
+															2a[i] - (sum + y - x)
+															\___/	\__________/
+															 var	   constant
+
+															 It is a monotone too! ram ram
+			both -ve:       
+
+			x - a[i] + y - rem -->  (x+y) - rem -- > minimize --> any index same answer	
+
+
+     	*/
+
+    }
+
+    static int bs(int query , int n ,int [] arr , long [][] catalouge , long sum , boolean flag) {
+    	int l = 1 , r = n;
+    	int ans = r;
+    	while(l<=r) {
+    		int mid = (l+r)>>>1; 
+    		if(flag) {
+    			if(check1(mid , query , catalouge , arr, sum )) {
+	    			ans=mid;
+	    			r = mid -1;
+    			}
+	    		else {
+	    			l = mid +1;
+	    		}
+    		}
+    		else {
+    			if(check2(mid , query , catalouge , arr, sum )) {
+	    			ans=mid;
+	    			r = mid -1;
+    			}
+	    		else {
+	    			l = mid +1;
+	    		}
+
+    		}
+    	}
+
+    	return ans;
+    }
+
+    static boolean check1(int mid ,int query, long [][] catalouge , int [] arr , long sum ) {
+    	long x =catalouge[query][1];
+    	long y = catalouge[query][2];
+
+    	return 2*arr[mid] < (sum + y - x) ;
+    }
+    static boolean check2(int mid ,int query, long [][] catalouge , int [] arr , long sum ) {
+    	long x =catalouge[query][1];
+    	long y = catalouge[query][2];
+
+    	return   (sum - y + x) < 2*arr[mid]  ;
+    }
+    
+
     // —— MODULAR ARITHMETIC ——
     private static long modExp(long a, long e, long m) { long res = 1; a %= m; while (e > 0) { if ((e & 1) == 1) res = res * a % m; a = a * a % m; e >>= 1; } return res; }
     private static long invMod(long x)                 { return modExp(x, mod - 2, mod); }
