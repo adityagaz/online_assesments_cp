@@ -24,7 +24,6 @@ public class contest_decay {
       score2 = s2 - d2(t1+t2)
       //note - here we have done t1+t2 because we have already exhausted t1 units of time in solving problem p1
       //decay is multiplied by total time from the start of contest till the problem is solved.
-
       total(1->2 ) = s1 - d1t1 + s2 - d2t1 -d2t2 
 
       Now ,consider the other possibility 
@@ -41,7 +40,6 @@ public class contest_decay {
       -d2t1 > -d1t2 
       d2t1 < d1t2
       d2/t2 < d1/t1  --voila here we get the optimal sorting order
-
       Now just sort the order by these ratios and print the sum
      */
     public static void main(String[] args) {
