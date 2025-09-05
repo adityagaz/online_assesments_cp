@@ -26,34 +26,51 @@ public class rippling_oa_hashing_sliding_window {
 
     //GRAPH METHOD
 
-    static void solve( int n , int k , int [] arr) {
-
-
+   static void solve( int n , int k , int [] arr) {
     	Map<Integer , List<Integer>> pos = new HashMap<>();
     	for( int i  = 0; i < n ; i++ ) {
-    		pos.putIfAbsent(arr[i],new ArrayList<>());
-    		pos.get(arr[i]).add(i);
+    		 pos.putIfAbsent(arr[i],new ArrayList<>());
+    		 pos.get(arr[i]).add(i);
     	}
-    	int ans = 0;
-
-    	for( int i : pos.keySet() ) {
-    		List<Integer> l = pos.get(i);
-    		int size = l.size();
-    		for( int j = 0 ; j < size ; j++ ) {
-    			for( int m = j ; m < size ; m++) {
-    				int actual = l.get(m) - l.get(j) +1;
-    				int onlyOnes = m - j+1;
-    				int diff = actual - onlyOnes;
-    				if(diff <= k) {
-    					ans = Math.max(ans , onlyOnes);
-    				}
-    			}
-    		} 
-    	}
-
-    	System.out.println(ans);
-    }
-
+     	int ans = 0;
+		for( int i : pos.keySet() ) {
+    		 List<Integer> l = pos.get(i);
+    		 int size = l.size();
+    		 int tail = 0 , head =-1;
+    		 while(tail  < size) {
+    		 	while(head+1  < size && (l.get(head+1)-  l.get(tail) - (head+1 - tail)) <= k) {
+    		 		head++;
+    		 	}
+    		 	ans = Math.max(ans , head - tail +1);
+    		 	
+    		 	if(tail > head) {
+    		 		tail++;
+    		 		head  = tail -1;
+    		 	}
+    		 	else {
+    		 		tail++;
+    		 	}
+    		 	
+    		 	
+    		 }
+    		 // for( int j = 0 ; j < size ; j++ ) {
+    			 // for( int m = j ; m < size ; m++) {
+    				 // int actual = l.get(m) - l.get(j) +1;
+    				 // int onlyOnes = m - j+1;
+//     				
+//     				
+    				 // int diff = actual - onlyOnes;
+    				 // if(diff <= k) {
+    					// ans = Math.max(ans , onlyOnes);
+    				 // }
+    			 // }
+    		 // }
+    		 
+    		 // O(n*n) 
+    	 }
+ 
+    	 System.out.println(ans);
+     }
 
 
     static boolean check(int chosen , int cnt_not_chosen , int [] arr , int head , int k) {
