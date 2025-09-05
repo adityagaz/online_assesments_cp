@@ -1,7 +1,6 @@
 package maximization;
 import java.util.*;
 
-import TREES.max_alternating_sum_at_each_node_from_root;
 public class maximum_sum_after_operations {
     public static void main(String[] args) {
         // ctrl D -- select the word being clicked at --> to select all instances ctrl + F2
