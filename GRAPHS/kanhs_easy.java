@@ -29,6 +29,7 @@ public class kanhs_easy implements Runnable {
 	static List<List<Integer>> g;
 	static int  [] inDeg , outDeg;
 	static List<Integer> topo;
+	static List<Integer> lexiTopo;
 	static int n , m;
     static void solve(FastReader sc ) throws Exception {
 
@@ -43,7 +44,7 @@ public class kanhs_easy implements Runnable {
         	outDeg = new int[n+1];
         	topo = new ArrayList<>();
 
-        	for( int i = 0 ; i<n ; i++ ) {
+        	for( int i = 0 ; i<=n ; i++ ) {
         		g.add(new ArrayList<>());
         	}
 
@@ -58,7 +59,7 @@ public class kanhs_easy implements Runnable {
 
         	kanh(); // call it 
 
-        	//if there is a cycle all nodes won't be processed 
+        	// if there is a cycle all nodes won't be processed 
         	// in the queue so, size of topo != number of nodes 
         	// hence contains a cycle
 
@@ -71,13 +72,29 @@ public class kanhs_easy implements Runnable {
         	else {
         		System.out.println("There is a cycle in the graph");
        		}
+
+
+
+       		//follow up ? lexicographically smallest topo ordering
+       		// hint -- use a min heap priority queue
+
+       		// lexiTopo = new ArrayList<>();
+       		// // LexicoTopoKanh();
+       		// System.out.println(lexiTopo);
+       		// if(lexiTopo.size() == n)  {
+       		// 	Collections.reverse(lexiTopo);
+       			
+       		// }
+       		// else {
+       		// 	System.out.println("There is a cycle");
+       		// }
         }
 
     }
 
     static void kanh() {
     	Queue<Integer> q = new LinkedList<>();
-    	for( int i = 0 ; i< n ; i++ ) {
+    	for( int i = 1 ; i<=n ; i++ ) {
     		if(inDeg[i] == 0) q.add(i);
     	}
     	while(!q.isEmpty()) {
@@ -90,6 +107,22 @@ public class kanhs_easy implements Runnable {
     			if(inDeg[nei] == 0) q.add(nei);
     		}
 
+    	}
+    }
+
+    // follow up 
+    static void LexicoTopoKanh() {
+    	PriorityQueue<Integer> pq = new PriorityQueue<>();	
+    	for( int i =1 ; i <= n ; i++) {
+    		if(inDeg[i] == 0) pq.add(i);
+    	}
+    	while(!pq.isEmpty()) {
+    		int curr = pq.poll();
+    		lexiTopo.add(curr);
+    		for( int nei : g.get(curr)) {
+    			inDeg[nei]--;
+    			if(inDeg[nei]==0)pq.add(nei);
+    		}
     	}
     }
 
