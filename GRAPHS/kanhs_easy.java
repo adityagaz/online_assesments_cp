@@ -1,15 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-import javax.xml.transform.stax.StAXResult;
-
-public class no_of_ways_to_add_edge implements Runnable {
+public class kanhs_easy implements Runnable {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
 
     public static void main(String[] args) {
-        new Thread(null, new no_of_ways_to_add_edge (), "whatever", 1 << 30).start();
+        new Thread(null, new kanhs_easy (), "whatever", 1 << 30).start();
     }
 
     @Override
@@ -28,66 +26,70 @@ public class no_of_ways_to_add_edge implements Runnable {
         }
     }
 
-    static List<List<Integer>> g = new ArrayList<>();
-    static int [] sz;
-    static int [] vis;
-    static int temp;
-    static List<Integer> size;
-
+	static List<List<Integer>> g;
+	static int  [] inDeg , outDeg;
+	static List<Integer> topo;
+	static int n , m;
     static void solve(FastReader sc ) throws Exception {
 
-        int t = sc.nextInt();
-        // int t = 1;
+        // int t = sc.nextInt();
+        int t = 1;
 
         while(t-- > 0) {
-        	int n = sc.nextInt();
-        	int m = sc.nextInt();
+        	n = sc.nextInt();
+        	m = sc.nextInt();
+        	g = new ArrayList<>();
+        	inDeg = new int[n+1];
+        	outDeg = new int[n+1];
+        	topo = new ArrayList<>();
 
-        	size = new ArrayList<>();
-        	for( int i =  0 ; i <= n ; i++ ) {
+        	for( int i = 0 ; i<n ; i++ ) {
         		g.add(new ArrayList<>());
         	}
 
-        	vis = new int[n+1];
-        	for( int i= 0 ; i < m ; i++ ) {
+        	for(int i  = 0; i < m ; i++) {
         		int u = sc.nextInt();
         		int v = sc.nextInt();
-        		g.get(u).add(v);
-        		g.get(v).add(u);
-        	}
-        	temp=0;
-        	int comp =1;
-        	for( int i = 1 ; i <= n ; i++  ) {
-        		if(vis[i] == 0) {
-        			dfs( i , comp);
-        			size.add(temp);
-        			comp++;
-        			temp = 0;
-        		}
+        		g.get(u).add(v); // u --> v  
+        		//so we need to increase the indegree of v
+        		inDeg[v]++;
+        		outDeg[u]++;
         	}
 
-        	int l = size.size();
-        	long ans =0L;
-        	for( int i = 0  ; i < l ; i++ ) {
-        		for( int j = i+1 ; j < l ; j++) {
-        			ans  = (long) ( ans +   ( 1L * size.get(i) * size.get(j)));
-        		}
-        	}	
+        	kanh(); // call it 
 
-        	printl(ans);
+        	//if there is a cycle all nodes won't be processed 
+        	// in the queue so, size of topo != number of nodes 
+        	// hence contains a cycle
 
-           
+        	if(topo.size() == n) {
+        		Collections.reverse(topo);
+        		System.out.println(topo);
+
+        		// It is a DAG 
+        	}
+        	else {
+        		System.out.println("There is a cycle in the graph");
+       		}
         }
 
     }
 
-    static void dfs( int node , int col ) {
-    	temp++;
-    	vis[node] = col;
-    	for( int nei : g.get(node))  {
-    		if(vis[nei] == 0) {
-    			dfs(nei , col);
+    static void kanh() {
+    	Queue<Integer> q = new LinkedList<>();
+    	for( int i = 0 ; i< n ; i++ ) {
+    		if(inDeg[i] == 0) q.add(i);
+    	}
+    	while(!q.isEmpty()) {
+    		int curr = q.poll();
+    		topo.add(curr);
+    		for( int nei : g.get(curr)) {
+    			// removing this node we have to subtract 1 from all neighbour's 
+    			//indegree
+    			inDeg[nei]--;
+    			if(inDeg[nei] == 0) q.add(nei);
     		}
+
     	}
     }
 

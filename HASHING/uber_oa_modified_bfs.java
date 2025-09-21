@@ -1,15 +1,16 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 import javax.xml.transform.stax.StAXResult;
 
-public class no_of_ways_to_add_edge implements Runnable {
+public class uber_oa_modified_bfs implements Runnable {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
 
     public static void main(String[] args) {
-        new Thread(null, new no_of_ways_to_add_edge (), "whatever", 1 << 30).start();
+        new Thread(null, new uber_oa_modified_bfs (), "whatever", 1 << 30).start();
     }
 
     @Override
@@ -28,65 +29,84 @@ public class no_of_ways_to_add_edge implements Runnable {
         }
     }
 
-    static List<List<Integer>> g = new ArrayList<>();
-    static int [] sz;
-    static int [] vis;
-    static int temp;
-    static List<Integer> size;
-
+    static List<List<Integer>> g;
+    static boolean [] vis;
+    static int [] dist;
+    static int [] five;
+    static int [] val;
     static void solve(FastReader sc ) throws Exception {
 
         int t = sc.nextInt();
         // int t = 1;
 
         while(t-- > 0) {
-        	int n = sc.nextInt();
+        	int n=sc.nextInt();
         	int m = sc.nextInt();
 
-        	size = new ArrayList<>();
-        	for( int i =  0 ; i <= n ; i++ ) {
+        	g = new ArrayList<>();
+        	for( int i  = 0 ; i <= n; i++ ) {
         		g.add(new ArrayList<>());
         	}
 
-        	vis = new int[n+1];
-        	for( int i= 0 ; i < m ; i++ ) {
+        	val = new int[n+1];
+        	vis = new boolean[n+1];
+        	dist = new int[n+1];
+        	five = new int[n+1];
+
+
+        	for(int i = 1 ; i <= n ; i++) {
+        		val[i] = sc.nextInt();
+        	}
+
+        	for( int i = 0; i < m ; i++) {
         		int u = sc.nextInt();
         		int v = sc.nextInt();
         		g.get(u).add(v);
         		g.get(v).add(u);
-        	}
-        	temp=0;
-        	int comp =1;
-        	for( int i = 1 ; i <= n ; i++  ) {
-        		if(vis[i] == 0) {
-        			dfs( i , comp);
-        			size.add(temp);
-        			comp++;
-        			temp = 0;
-        		}
+
         	}
 
-        	int l = size.size();
-        	long ans =0L;
-        	for( int i = 0  ; i < l ; i++ ) {
-        		for( int j = i+1 ; j < l ; j++) {
-        			ans  = (long) ( ans +   ( 1L * size.get(i) * size.get(j)));
-        		}
-        	}	
 
-        	printl(ans);
-
-           
+        	bfs(1);
+        	
+        	for (int i = 1 ;i <=n  ;i++ ) {
+        		System.out.println(dist[i] + " " +  five[i]);
+        	}  
+        	System.out.println();
         }
 
     }
 
-    static void dfs( int node , int col ) {
-    	temp++;
-    	vis[node] = col;
-    	for( int nei : g.get(node))  {
-    		if(vis[nei] == 0) {
-    			dfs(nei , col);
+    static void bfs(int src) {
+    	Queue<Integer> q = new LinkedList<>();
+    	vis[src]=true;
+    	dist[src]=0;
+    	five[src]=val[src]==5 ? 1 : 0;
+    	q.add(src);
+    	while(!q.isEmpty()) {
+    		int node = q.poll();
+
+    		for( int nei : g.get(node)){
+
+    			if(!vis[nei]) {
+    				vis[nei]=true;
+    				dist[nei] = 1 + dist[node]; 
+    				five[nei] = (val[nei] == 5 ? 1 : 0 ) +  five[node];
+    				q.add(nei);
+    			}
+    			else {
+    				//already visited .. another path
+    				if(dist[nei] >= 1 + dist[node]) {
+    					if(five[nei] < (five[node] + val[nei]==5?1:0 )) {
+    						five[nei] = five[node] + val[nei]==5?1:0;
+    						dist[node] = 1 + dist[node];
+    					}
+    				}
+    				else {
+    					// distance is already smaller...
+    					continue;
+    				}
+    			}
     		}
     	}
     }

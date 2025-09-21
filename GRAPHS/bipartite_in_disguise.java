@@ -1,15 +1,64 @@
 import java.io.*;
 import java.util.*;
 
-import javax.xml.transform.stax.StAXResult;
+/*
 
-public class no_of_ways_to_add_edge implements Runnable {
+There are 
+n students in the AlgoZenith course and 
+m friendships between them. Your task is to divide the students into two teams in such a way that no two students in a team are friends. You can freely choose the sizes of the teams. The size of each team should be positive.
+
+Input Format
+The first input line has two integers 
+n and 
+m: the number of students and friendships. The students are numbered 
+
+1,2,…,n.
+Then, there are 
+
+m lines describing friendships. Each line has two integers 
+a and b
+: students 
+
+a and b are friends.
+Every friendship is between two different students. You can assume that there is at most one friendship between any two students.
+
+Output Format
+Print YES if it's possible to divide students in two teams, otherwise print NO.
+
+Constraints
+1≤n≤10 ^5
+1≤m≤2×10 ^5
+ 
+1≤a,b≤n
+
+Sample Input 1
+5 3
+1 2
+1 3
+4 5
+Sample Output 1
+YES
+Sample Input 2
+4 3
+1 2
+2 3
+1 3
+Sample Output 2
+NO
+Note
+For the first sample, one possible division is teams {1,4,5} and {2,3} — no two students in the same team are friends, so the answer is YES.
+For the second sample, the triangle between students 
+
+1,2,3 makes it impossible to split them into two teams without friends appearing in the same team, so the answer is NO.
+*/
+
+public class bipartite_in_disguise implements Runnable {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
 
     public static void main(String[] args) {
-        new Thread(null, new no_of_ways_to_add_edge (), "whatever", 1 << 30).start();
+        new Thread(null, new bipartite_in_disguise (), "whatever", 1 << 30).start();
     }
 
     @Override
@@ -28,67 +77,64 @@ public class no_of_ways_to_add_edge implements Runnable {
         }
     }
 
-    static List<List<Integer>> g = new ArrayList<>();
-    static int [] sz;
+    static  List<List<Integer>> g;
     static int [] vis;
-    static int temp;
-    static List<Integer> size;
-
     static void solve(FastReader sc ) throws Exception {
 
-        int t = sc.nextInt();
-        // int t = 1;
+        // int t = sc.nextInt();
+        int t = 1;
 
         while(t-- > 0) {
+
         	int n = sc.nextInt();
         	int m = sc.nextInt();
 
-        	size = new ArrayList<>();
-        	for( int i =  0 ; i <= n ; i++ ) {
+        	g = new ArrayList<>();
+        	for( int i = 0; i <= n ; i++  ) {
         		g.add(new ArrayList<>());
         	}
 
         	vis = new int[n+1];
-        	for( int i= 0 ; i < m ; i++ ) {
+        	for( int i  = 0; i < m ; i++ ) {
+
         		int u = sc.nextInt();
         		int v = sc.nextInt();
         		g.get(u).add(v);
         		g.get(v).add(u);
         	}
-        	temp=0;
-        	int comp =1;
-        	for( int i = 1 ; i <= n ; i++  ) {
-        		if(vis[i] == 0) {
-        			dfs( i , comp);
-        			size.add(temp);
-        			comp++;
-        			temp = 0;
-        		}
-        	}
+        	int col=1;
+        	boolean flag = true;
+			for( int i =1 ; i <= n ; i++ ) {
+				if(vis[i] == 0) {
+					if(!dfs(i ,col)) {
+						flag = false;
+						break;
+				}
+			} 
+			 }      
+			if(flag) printl("YES");
+			else printl("NO");
 
-        	int l = size.size();
-        	long ans =0L;
-        	for( int i = 0  ; i < l ; i++ ) {
-        		for( int j = i+1 ; j < l ; j++) {
-        			ans  = (long) ( ans +   ( 1L * size.get(i) * size.get(j)));
-        		}
-        	}	
+			
 
-        	printl(ans);
-
-           
         }
 
     }
 
-    static void dfs( int node , int col ) {
-    	temp++;
-    	vis[node] = col;
-    	for( int nei : g.get(node))  {
+    static boolean dfs( int node , int color) {
+    	vis[node] = color;
+
+    	for( int nei  : g.get(node)){
     		if(vis[nei] == 0) {
-    			dfs(nei , col);
+    			if(!dfs(nei , 3 - color)) return false;
+    		}
+    		else if(vis[nei]  == vis[node] ) {
+    			return false;
     		}
     	}
+
+    	return true;
+
     }
 
     // —— MODULAR ARITHMETIC ——

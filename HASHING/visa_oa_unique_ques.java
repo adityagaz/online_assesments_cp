@@ -1,15 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-import javax.xml.transform.stax.StAXResult;
-
-public class no_of_ways_to_add_edge implements Runnable {
+public class visa_oa_unique_ques implements Runnable {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
 
     public static void main(String[] args) {
-        new Thread(null, new no_of_ways_to_add_edge (), "whatever", 1 << 30).start();
+        new Thread(null, new visa_oa_unique_ques (), "whatever", 1 << 30).start();
     }
 
     @Override
@@ -28,68 +26,131 @@ public class no_of_ways_to_add_edge implements Runnable {
         }
     }
 
-    static List<List<Integer>> g = new ArrayList<>();
-    static int [] sz;
-    static int [] vis;
-    static int temp;
-    static List<Integer> size;
 
-    static void solve(FastReader sc ) throws Exception {
+static void solve(FastReader sc ) throws Exception {
 
         int t = sc.nextInt();
         // int t = 1;
 
         while(t-- > 0) {
+
         	int n = sc.nextInt();
-        	int m = sc.nextInt();
-
-        	size = new ArrayList<>();
-        	for( int i =  0 ; i <= n ; i++ ) {
-        		g.add(new ArrayList<>());
-        	}
-
-        	vis = new int[n+1];
-        	for( int i= 0 ; i < m ; i++ ) {
-        		int u = sc.nextInt();
-        		int v = sc.nextInt();
-        		g.get(u).add(v);
-        		g.get(v).add(u);
-        	}
-        	temp=0;
-        	int comp =1;
-        	for( int i = 1 ; i <= n ; i++  ) {
-        		if(vis[i] == 0) {
-        			dfs( i , comp);
-        			size.add(temp);
-        			comp++;
-        			temp = 0;
-        		}
-        	}
-
-        	int l = size.size();
-        	long ans =0L;
-        	for( int i = 0  ; i < l ; i++ ) {
-        		for( int j = i+1 ; j < l ; j++) {
-        			ans  = (long) ( ans +   ( 1L * size.get(i) * size.get(j)));
-        		}
-        	}	
-
-        	printl(ans);
-
+        	int k = sc.nextInt();
+        	int [] arr = new int[n+1];
+        	for( int i = 0 ; i < n ; i++ ) arr[i+1] = sc.nextInt();
+			
+			bruteforce(arr , k); // O(n^2)
+        	optimalBinarySearch(arr, k); // O(NlogN)
+        	optimalSlidingWindow(arr , k); // O(n)
+        	
            
         }
 
     }
+    
+    
+    static void bruteforce(int [] arr , int k) {
+    	int n = arr.length-1;
+    	int cnt = 0;
 
-    static void dfs( int node , int col ) {
-    	temp++;
-    	vis[node] = col;
-    	for( int nei : g.get(node))  {
-    		if(vis[nei] == 0) {
-    			dfs(nei , col);
+        	long [] pref = new long[n+1];
+        	
+        	for (int i = 1 ; i <=n ;i++ ) {
+        		pref[i] = pref[i-1] + arr[i];
+        	}
+        	int mx = 0;
+        	for( int i = 1; i <= n ; i ++ )  {
+        		long sum = 0;
+        		for( int j = i ; j <=n ; j++ ) {
+        			sum+=arr[j];
+        			if(sum - pref[i-1] <= k)  {
+        				mx = Math.max(mx , j-i+1);
+        			}
+        		}
+        	}
+
+        	
+        	System.out.println(mx);
+    }
+    
+    static void optimalBinarySearch( int [] arr , int k) {
+    	int n = arr.length-1;
+    	int mx =0;
+    	long [] pref = new long[n+1];
+        	
+    	for (int i = 1 ; i <=n ;i++ ) {
+    		pref[i] = pref[i-1] + arr[i];
+    	}
+    	
+    	//for each i we have to find the optimal j such that till there we can expand
+    	for( int i = 1 ; i <=  n ; i++) {
+    		int best = bs(arr , k , i , pref );
+    		if(best >= i )mx= Math.max(mx , best - i +1);
+    	}
+    	System.out.println(mx);
+    	
+    }
+    
+    static int  bs(int [] arr , int k , int l ,long [] pref ) {
+    	int start = l , end = arr.length-1;
+    	int ans = l-1;
+    	while(start <= end) {
+    		int mid = (start + end) >>>1;
+    		if(chk(pref , l , mid , k)) {
+    			ans = mid;
+    			start = mid+1;
+    		}
+    		else {
+    			end = mid -1;
     		}
     	}
+    	
+    	return ans;
     }
+    static boolean chk(long [] pref , int l , int mid , int k) {
+    	return ((pref[mid] - (2*pref[l-1])) <= k); 
+    }
+
+
+    static void optimalSlidingWindow( int [] arr , int k) {
+    	//optimal using sliding window
+    	
+    	int n = arr.length-1;
+    	long [] pref = new long[n+1];
+        	
+    	for (int i = 1 ; i <=n ;i++ ) {
+    		pref[i] = pref[i-1] + arr[i];
+    	}
+    	int mx = 0;
+    	int h = 0 , t =1;
+    	while(t <=n) {
+    		while(h+1<=n && check(h , t,  k , pref)) {
+    			h++;
+    		}
+
+    		mx = Math.max(mx , h-t+1);
+
+    		if(t>h) {
+    			t++;
+    			h=t-1;
+    		}
+    		else {
+    			t++;
+    		}
+    	}
+
+    	System.out.println(mx);
+
+
+    }
+
+    static boolean  check(int h , int t , int k , long [] pref){
+    	if(pref[h+1] - (2*pref[t-1]) <= k) return true;
+    	else return false;
+    }
+    
+
+
 
     // —— MODULAR ARITHMETIC ——
     private static long modExp(long a, long e, long m) { long res = 1; a %= m; while (e > 0) { if ((e & 1) == 1) res = res * a % m; a = a * a % m; e >>= 1; } return res; }

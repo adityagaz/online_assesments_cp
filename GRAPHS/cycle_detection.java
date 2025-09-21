@@ -1,15 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-import javax.xml.transform.stax.StAXResult;
-
-public class no_of_ways_to_add_edge implements Runnable {
+public class cycle_detection implements Runnable {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
 
     public static void main(String[] args) {
-        new Thread(null, new no_of_ways_to_add_edge (), "whatever", 1 << 30).start();
+        new Thread(null, new cycle_detection (), "whatever", 1 << 30).start();
     }
 
     @Override
@@ -28,67 +26,59 @@ public class no_of_ways_to_add_edge implements Runnable {
         }
     }
 
-    static List<List<Integer>> g = new ArrayList<>();
-    static int [] sz;
-    static int [] vis;
-    static int temp;
-    static List<Integer> size;
 
+    static List<List<Integer>> g;
+    static int [] vis;
     static void solve(FastReader sc ) throws Exception {
 
-        int t = sc.nextInt();
-        // int t = 1;
+        // int t = sc.nextInt();
+        int t = 1;
 
-        while(t-- > 0) {
+        while(t-- > 0) {	
         	int n = sc.nextInt();
-        	int m = sc.nextInt();
+        	int m = sc.nextInt();	
 
-        	size = new ArrayList<>();
-        	for( int i =  0 ; i <= n ; i++ ) {
+        	g =new ArrayList<>();
+        	vis = new  int[n+1];
+        	for ( int i = 0 ; i <= n ; i++) {
         		g.add(new ArrayList<>());
         	}
-
-        	vis = new int[n+1];
-        	for( int i= 0 ; i < m ; i++ ) {
+        	for( int i  =0 ; i < m ; i++ ) {
         		int u = sc.nextInt();
         		int v = sc.nextInt();
         		g.get(u).add(v);
         		g.get(v).add(u);
         	}
-        	temp=0;
-        	int comp =1;
-        	for( int i = 1 ; i <= n ; i++  ) {
-        		if(vis[i] == 0) {
-        			dfs( i , comp);
-        			size.add(temp);
-        			comp++;
-        			temp = 0;
-        		}
-        	}
 
-        	int l = size.size();
-        	long ans =0L;
-        	for( int i = 0  ; i < l ; i++ ) {
-        		for( int j = i+1 ; j < l ; j++) {
-        			ans  = (long) ( ans +   ( 1L * size.get(i) * size.get(j)));
-        		}
-        	}	
+        	boolean flag = false;
+           for( int i = 1 ; i <= n ; i++ ) {
+           		if(vis[i]==0) {
+           			if(!dfs(i , -1)) {
+           			flag = true;
+           			break;
+           		}
+           		}
+           }
 
-        	printl(ans);
 
-           
+           if(flag) printl("YES");
+           else printl("NO");
         }
 
     }
+    static boolean dfs( int node , int parent ) {
+    	vis[node]=1;
 
-    static void dfs( int node , int col ) {
-    	temp++;
-    	vis[node] = col;
-    	for( int nei : g.get(node))  {
-    		if(vis[nei] == 0) {
-    			dfs(nei , col);
+    	for( int nei : g.get(node)) {
+    		if(vis[nei]==0) {
+    			if(!dfs(nei  , node)) return false;
+    		}
+    		else if(nei != parent){
+    			return false;
     		}
     	}
+
+    	return true;
     }
 
     // —— MODULAR ARITHMETIC ——

@@ -1,15 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-import javax.xml.transform.stax.StAXResult;
-
-public class no_of_ways_to_add_edge implements Runnable {
+public class knight_walk implements Runnable {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
 
     public static void main(String[] args) {
-        new Thread(null, new no_of_ways_to_add_edge (), "whatever", 1 << 30).start();
+        new Thread(null, new knight_walk (), "whatever", 1 << 30).start();
     }
 
     @Override
@@ -28,68 +26,73 @@ public class no_of_ways_to_add_edge implements Runnable {
         }
     }
 
-    static List<List<Integer>> g = new ArrayList<>();
-    static int [] sz;
-    static int [] vis;
-    static int temp;
-    static List<Integer> size;
-
+    static int [][] board;
+    static boolean [][] vis;
+    static int dist [][];
+    static int n , sx, sy , fx, fy;
     static void solve(FastReader sc ) throws Exception {
 
         int t = sc.nextInt();
         // int t = 1;
 
         while(t-- > 0) {
-        	int n = sc.nextInt();
-        	int m = sc.nextInt();
 
-        	size = new ArrayList<>();
-        	for( int i =  0 ; i <= n ; i++ ) {
-        		g.add(new ArrayList<>());
-        	}
+        	n = sc.nextInt();
+        	sx = sc.nextInt();
+        	sy = sc.nextInt();
+        	fx = sc.nextInt();
+        	fy = sc.nextInt();	
+        	vis = new boolean[n+1][n+1];
+          	dist = new int[n+1][n+1];
 
-        	vis = new int[n+1];
-        	for( int i= 0 ; i < m ; i++ ) {
-        		int u = sc.nextInt();
-        		int v = sc.nextInt();
-        		g.get(u).add(v);
-        		g.get(v).add(u);
-        	}
-        	temp=0;
-        	int comp =1;
-        	for( int i = 1 ; i <= n ; i++  ) {
-        		if(vis[i] == 0) {
-        			dfs( i , comp);
-        			size.add(temp);
-        			comp++;
-        			temp = 0;
-        		}
-        	}
+          	for( int [] i : dist) {
+          		Arrays.fill(i , (int)1e9);
+          	}
+          	bfs(sx , sy);
 
-        	int l = size.size();
-        	long ans =0L;
-        	for( int i = 0  ; i < l ; i++ ) {
-        		for( int j = i+1 ; j < l ; j++) {
-        			ans  = (long) ( ans +   ( 1L * size.get(i) * size.get(j)));
-        		}
-        	}	
 
-        	printl(ans);
+          	// for( int  [] i : dist ) {
+          	// 	System.out.println(Arrays.toString(i));
+          	// }
+          	if(dist[fx][fy]==(int)1e9) printl(-1);
+          	else printl(dist[fx][fy]);
 
-           
         }
 
     }
 
-    static void dfs( int node , int col ) {
-    	temp++;
-    	vis[node] = col;
-    	for( int nei : g.get(node))  {
-    		if(vis[nei] == 0) {
-    			dfs(nei , col);
-    		}
-    	}
+
+
+    static boolean isFeasible(int i , int j  ) {
+    	return (i>=1&&j>=1&&i<=n&&j<=n);
     }
+    static void bfs(int sx , int sy) {
+    	Queue<int [] > q = new LinkedList<>();
+    	q.add(new int [] {sx, sy});
+    	vis[sx][sy] = true;
+    	dist[sx][sy]= 0;
+
+    	while(!q.isEmpty()) {
+    		int [] curr = q.poll();
+
+    		for( int i  = 0; i < 8 ; i++ ) {
+    			int ni = curr[0] + dx[i];
+    			int nj = curr[1] + dy[i];
+    			if(isFeasible(ni , nj) && !vis[ni][nj]  ) {
+    				dist[ni][nj] = 1 + dist[curr[0]][curr[1]];
+    				vis[ni][nj]=true;
+    				q.add(new int  []{ni ,nj});
+    			}
+     		}
+
+    	}
+
+    }
+
+
+    static int [] dx = {-2 , -2 , -1 , -1 , 1 ,1 , 2,2};
+    static int [] dy = {-1 , 1 , -2 , 2 , -2 ,2 , -1,1};
+
 
     // —— MODULAR ARITHMETIC ——
     private static long modExp(long a, long e, long m) { long res = 1; a %= m; while (e > 0) { if ((e & 1) == 1) res = res * a % m; a = a * a % m; e >>= 1; } return res; }

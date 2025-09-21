@@ -7,8 +7,6 @@ public class five {
         int k = 4;
         System.out.println(solution(prices, algo, k)); // 21
     }
-
-
     static long solution(int [] prices , int [] algo , int k) {
         int n = algo.length;
         long basePrice = 0L;
