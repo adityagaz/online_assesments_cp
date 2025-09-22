@@ -1,13 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-public class kanhs_easy implements Runnable {
+public class djikstras implements Runnable {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
 
     public static void main(String[] args) {
-        new Thread(null, new kanhs_easy (), "whatever", 1 << 30).start();
+        new Thread(null, new djikstras (), "whatever", 1 << 30).start();
     }
 
     @Override
@@ -25,104 +25,81 @@ public class kanhs_easy implements Runnable {
             e.printStackTrace();
         }
     }
+  	public static class Pair {
+  		int e , w;
+  		public Pair(int x , int y) {
+  			e=x;w=y;
+  		}
+  	}
+    static List<List<Pair>> g;
+    static int [] vis;
+    static int [] dist;
 
-	static List<List<Integer>> g;
-	static int  [] inDeg , outDeg;
-	static List<Integer> topo;
-	static List<Integer> lexiTopo;
-	static int n , m;
     static void solve(FastReader sc ) throws Exception {
 
         // int t = sc.nextInt();
         int t = 1;
 
         while(t-- > 0) {
-        	n = sc.nextInt();
-        	m = sc.nextInt();
-        	g = new ArrayList<>();
-        	inDeg = new int[n+1];
-        	outDeg = new int[n+1];
-        	topo = new ArrayList<>();
+        	int n = sc.nextInt();
+        	int m = sc.nextInt();
+        	g= new ArrayList<>();
+        	vis = new int[n+1];
+        	dist = new int[n+1];
 
-        	for( int i = 0 ; i<=n ; i++ ) {
+        	for (int i  = 0; i<=n ; i++ ) {
         		g.add(new ArrayList<>());
         	}
-
-        	for(int i  = 0; i < m ; i++) {
+        	for( int i= 0; i<m;i++) {
         		int u = sc.nextInt();
         		int v = sc.nextInt();
-        		g.get(u).add(v); // u --> v  
-        		//so we need to increase the indegree of v
-        		inDeg[v]++;
-        		outDeg[u]++;
+        		int w = sc.nextInt();
+
+        		g.get(u).add(new Pair(v, w));
+        		g.get(v).add(new Pair(u , w));
+
         	}
+        	// we need to find shortest distance from 
+        	// source to all nodes (weighted)
 
-        	kanh(); // call it 
+        	djikstrasHelper(1);
+        	System.out.println("djikstras");
+        	System.out.println(Arrays.toString(dist));
 
-        	// if there is a cycle all nodes won't be processed 
-        	// in the queue so, size of topo != number of nodes 
-        	// hence contains a cycle
-
-        	if(topo.size() == n) {
-        		Collections.reverse(topo);
-        		System.out.println(topo);
-
-        		// It is a DAG 
-        	}
-        	else {
-        		System.out.println("There is a cycle in the graph");
-       		}
-
-
-
-       		//follow up ? lexicographically smallest topo ordering
-       		// hint -- use a min heap priority queue
-
-       		// lexiTopo = new ArrayList<>();
-       		// // LexicoTopoKanh();
-       		// System.out.println(lexiTopo);
-       		// if(lexiTopo.size() == n)  {
-       		// 	Collections.reverse(lexiTopo);
-       			
-       		// }
-       		// else {
-       		// 	System.out.println("There is a cycle");
-       		// }
+           
         }
 
+
     }
 
-    static void kanh() {
-    	Queue<Integer> q = new LinkedList<>();
-    	for( int i = 1 ; i<=n ; i++ ) {
-    		if(inDeg[i] == 0) q.add(i);
-    	}
-    	while(!q.isEmpty()) {
-    		int curr = q.poll();
-    		topo.add(curr);
-    		for( int nei : g.get(curr)) {
-    			// removing this node we have to subtract 1 from all neighbour's 
-    			//indegree
-    			inDeg[nei]--;
-    			if(inDeg[nei] == 0) q.add(nei);
-    		}
-    	}
-    }
-
-    // follow up 
-    static void LexicoTopoKanh() {
-    	PriorityQueue<Integer> pq = new PriorityQueue<>();	
-    	for( int i =1 ; i <= n ; i++) {
-    		if(inDeg[i] == 0) pq.add(i);
-    	}
+    static void djikstrasHelper(int node) {
+    	PriorityQueue<Integer> pq = new PriorityQueue<>();
+    	//mark all inf
+    	Arrays.fill(dist, (int) 1e9);
+    	pq.add(node);
+    	dist[node]=0;
+    	
     	while(!pq.isEmpty()) {
-    		int curr = pq.poll();
-    		lexiTopo.add(curr);
-    		for( int nei : g.get(curr)) {
-    			inDeg[nei]--;
-    			if(inDeg[nei]==0)pq.add(nei);
+    		System.out.println(pq);
+    		int currNode = pq.poll();
+
+    		
+    		if(vis[currNode] == 1 ) continue;
+    		vis[currNode] = 1;
+
+    		for( Pair neigh : g.get(currNode)) {
+    			int nei = neigh.e;
+    			int weight  = neigh.w;
+    			if(dist[nei] > dist[currNode] + weight)  {
+    				dist[nei] = dist[currNode ] + weight;
+    				pq.add(nei); // adding and then rebalancing the pq will 
+    				// incurr log(V)
+    			}
     		}
-    	}
+     	}
+
+     	// TIME COMPLEXITY -- o((V+E)*log(V))
+     	// SPACE COMPLEXITY -- O(V)	
     }
 
     // —— MODULAR ARITHMETIC ——

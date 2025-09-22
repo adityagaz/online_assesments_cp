@@ -1,13 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-public class kanhs_easy implements Runnable {
+public class BFS_0_1 implements Runnable {
     final static long mod = 1_000_000_007L;
     static PrintWriter out;
 
 
     public static void main(String[] args) {
-        new Thread(null, new kanhs_easy (), "whatever", 1 << 30).start();
+        new Thread(null, new BFS_0_1 (), "whatever", 1 << 30).start();
     }
 
     @Override
@@ -26,105 +26,131 @@ public class kanhs_easy implements Runnable {
         }
     }
 
-	static List<List<Integer>> g;
-	static int  [] inDeg , outDeg;
-	static List<Integer> topo;
-	static List<Integer> lexiTopo;
-	static int n , m;
+    /*
+    BFS 0 - 1
+
+    We use 0 - 1 bfs whenever the graph only has the weights 0 or 1
+    Instead of using Djikstra's we use 0-1 BFS to optimise it to O(V+E)
+
+    Uses- 
+    i. The graph in the use cases will be given as matrix most of the times in 
+    disguise. There will be walls in the matrix if we go through wall we need to break it
+    and it incurs at cost of 1 otherwise cost is zero. 
+
+    Modelling -- One task - 0 cost , Others - + 1 cost 
+
+    Example - At each cell we have up , down , left , right written 
+    If we move in any other direction than specified we incur a cost of 1. 
+    otherwise 0.
+
+    Similar problems on codeforces can be seen where we have to model the problem into a graph one
+    then apply SSSP algos or MSSP.
+
+    0-1 BFS also works on the multisource points.
+
+    The idea is whenever we push into the queue we have two choices that 
+    	i. neighbour is at a same distance as this node. + 0 
+    	ii. neighbour is at a distance one more than node. + 1
+
+    	So, To process the neighbours with same distance with require them to be put again in the queue
+    	before the one distance ones.
+
+
+    	voila!
+
+    	IN 0-1 BFS we use Deque where we can insert at the front and the end both.
+		
+		Changes --
+			We insert the neighbour with the same distance in the front of the queue and neighbour with + 1 
+			distance at the end of the queue.
+
+			This suffices because, we traverse in the order of shortest distances.
+
+
+			A node can atmost can inserted in the dequeue at most two times 
+
+			T.C - O(2 * (V+E)
+			S.C - o(2 * N)
+
+
+
+
+    */
+    public static class Pair {
+    	int e ,w;
+    	public Pair( int y ,int z)  {
+    		e=y;w=z;
+    	}
+    }
+    static List<List<Pair >> g;
+    static int [] vis;
+    static int [] dist;
     static void solve(FastReader sc ) throws Exception {
 
         // int t = sc.nextInt();
         int t = 1;
 
         while(t-- > 0) {
-        	n = sc.nextInt();
-        	m = sc.nextInt();
+        	int n = sc.nextInt();
+        	int m = sc.nextInt();
         	g = new ArrayList<>();
-        	inDeg = new int[n+1];
-        	outDeg = new int[n+1];
-        	topo = new ArrayList<>();
-
-        	for( int i = 0 ; i<=n ; i++ ) {
+        	vis = new int[n+1];
+        	dist = new int[n+1];
+        	for(int i  = 0; i <= n ; i++ ) {
         		g.add(new ArrayList<>());
         	}
-
-        	for(int i  = 0; i < m ; i++) {
+        	for( int i  = 0; i < m; i++)  {
         		int u = sc.nextInt();
         		int v = sc.nextInt();
-        		g.get(u).add(v); // u --> v  
-        		//so we need to increase the indegree of v
-        		inDeg[v]++;
-        		outDeg[u]++;
+        		int w = sc.nextInt();
+
+        		g.get(u).add(new Pair(v, w));
+        		g.get(v).add(new Pair(u , w));
         	}
 
-        	kanh(); // call it 
+        	BFS01(1);
 
-        	// if there is a cycle all nodes won't be processed 
-        	// in the queue so, size of topo != number of nodes 
-        	// hence contains a cycle
-
-        	if(topo.size() == n) {
-        		Collections.reverse(topo);
-        		System.out.println(topo);
-
-        		// It is a DAG 
-        	}
-        	else {
-        		System.out.println("There is a cycle in the graph");
-       		}
-
-
-
-       		//follow up ? lexicographically smallest topo ordering
-       		// hint -- use a min heap priority queue
-
-       		// lexiTopo = new ArrayList<>();
-       		// // LexicoTopoKanh();
-       		// System.out.println(lexiTopo);
-       		// if(lexiTopo.size() == n)  {
-       		// 	Collections.reverse(lexiTopo);
-       			
-       		// }
-       		// else {
-       		// 	System.out.println("There is a cycle");
-       		// }
+           System.out.println(Arrays.toString(dist));
         }
 
     }
 
-    static void kanh() {
-    	Queue<Integer> q = new LinkedList<>();
-    	for( int i = 1 ; i<=n ; i++ ) {
-    		if(inDeg[i] == 0) q.add(i);
-    	}
-    	while(!q.isEmpty()) {
-    		int curr = q.poll();
-    		topo.add(curr);
-    		for( int nei : g.get(curr)) {
-    			// removing this node we have to subtract 1 from all neighbour's 
-    			//indegree
-    			inDeg[nei]--;
-    			if(inDeg[nei] == 0) q.add(nei);
-    		}
-    	}
-    }
+   	static void BFS01 (int node ) {
+   		ArrayDeque<Integer> dq = new ArrayDeque<>();
+   		Arrays.fill(dist, (int)1e9);
+   		dist[node] = 0;
+   		dq.add(node);
+   		while(!dq.isEmpty()) {
+   			int currNode= dq.poll();
+   			//standard practice
 
-    // follow up 
-    static void LexicoTopoKanh() {
-    	PriorityQueue<Integer> pq = new PriorityQueue<>();	
-    	for( int i =1 ; i <= n ; i++) {
-    		if(inDeg[i] == 0) pq.add(i);
-    	}
-    	while(!pq.isEmpty()) {
-    		int curr = pq.poll();
-    		lexiTopo.add(curr);
-    		for( int nei : g.get(curr)) {
-    			inDeg[nei]--;
-    			if(inDeg[nei]==0)pq.add(nei);
-    		}
-    	}
-    }
+   			if(vis[currNode]==1) continue;
+   			vis[currNode] = 1;
 
+   			//standard practice
+
+   			for( Pair neigh : g.get(currNode)) { // check all neighbours
+   				int nei = neigh.e;
+   				int w = neigh.w;
+
+   				if( dist[nei] > dist[currNode] + w ) { // relax
+   					dist[nei] = dist[currNode] + w;
+   					
+   					//update
+   					if(w == 0) {
+   						dq.addFirst(nei);
+   					}
+   					else {
+   						dq.addLast(nei);
+   					}
+
+   				}
+
+   			}
+   		}
+
+
+   	}
     // —— MODULAR ARITHMETIC ——
     private static long modExp(long a, long e, long m) { long res = 1; a %= m; while (e > 0) { if ((e & 1) == 1) res = res * a % m; a = a * a % m; e >>= 1; } return res; }
     private static long invMod(long x)                 { return modExp(x, mod - 2, mod); }
