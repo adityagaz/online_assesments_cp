@@ -1,0 +1,39 @@
+// Documentation at https://www.sublimetext.com/docs/color_schemes.html
+{
+	"variables":
+	{
+
+
+		"black_love": "hsl(0, 0%, 10%)",
+		 "black": "hsl(0, 0%, 0%)",
+  "black2": "hsl(60, 17%, 11%)",
+  "black3": "hsl(70, 8%, 15%)",
+
+  "blue":   "hsla(190, 60%, 55%, 0.91)",
+  "grey":   "hsla(55, 7%, 31%, 0.60)",
+  "orange": "hsla(32, 70%, 48%, 0.91)",
+  "orange2":"hsla(30, 60%, 30%, 0.91)",
+  "orange3":"hsla(47, 70%, 70%, 0.91)",
+  "purple": "hsla(261, 65%, 65%, 0.91)",
+  "red":    "hsla(0, 70%, 50%, 0.91)",
+  "red2":   "hsla(338, 70%, 48%, 0.91)",
+
+  "white":  "hsla(0, 0%, 95%, 0.91)",
+  "white2": "hsla(60, 25%, 94%, 0.91)",
+  "white3": "hsla(60, 22%, 94%, 0.91)",
+
+  "yellow":  "hsla(54, 55%, 58%, 0.91)",
+  "yellow2": "hsla(80, 55%, 48%, 0.91)",
+  "yellow3": "hsla(60, 10%, 72%, 0.91)",
+  "yellow4": "hsla(55, 10%, 22%, 0.91)",
+  "yellow5": "hsla(50, 10%, 36%, 0.91)"
+	},
+	"globals":
+	{
+		"background": "var(black_love)",
+	},
+	"rules":
+	[
+		
+	]
+}

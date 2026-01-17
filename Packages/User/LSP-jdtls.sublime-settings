@@ -1,0 +1,13 @@
+// Settings in here override those in "LSP-jdtls/LSP-jdtls.sublime-settings"
+{
+  // disable all server diagnostics
+  "initializationOptions": {
+    "diagnostics": { "enabled": false }
+  },
+
+  // turn off JDT‑LS error reporting but keep completion on
+  "settings": {
+    "java.diagnostics.enabled": false,
+    "java.completion.enabled": true
+  }
+}
