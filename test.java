@@ -72,21 +72,6 @@ static void solve(FastReader sc ) throws Exception {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 private static void setupIO() throws Exception {
     String inputPath  = "/Users/aditya30/Documents/GitHub/online_assesments_cp/input.txt";
     String outputPath = "/Users/aditya30/Documents/GitHub/online_assesments_cp/output.txt";
