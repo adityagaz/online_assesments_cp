@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class test1 {
+public class CodeForcesModuloArithmetic {
     //https://codeforces.com/contest/742/problem/A
     final static long mod = 1_000_000_007L;
     static PrintWriter out;

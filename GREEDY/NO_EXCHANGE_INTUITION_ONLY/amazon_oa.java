@@ -1,4 +1,4 @@
-package GREEDY.NO_EXCHANGE_INTUITION_ONLY;
+
 import java.util.*;
 public class amazon_oa {
     public static void main(String[] args) {

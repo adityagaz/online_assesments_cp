@@ -1,4 +1,3 @@
-package GRAPHS;
 import java.util.*;
 
 public class find_no_of_shortest_paths_to_every_node_from_root {

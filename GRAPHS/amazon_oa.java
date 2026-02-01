@@ -1,4 +1,3 @@
-package GRAPHS;
 import java.util.*;
 
 public class amazon_oa {

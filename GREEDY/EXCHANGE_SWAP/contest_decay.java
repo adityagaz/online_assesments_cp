@@ -1,4 +1,4 @@
-package GREEDY.EXCHANGE_SWAP;
+
 import java.util.*;
 public class contest_decay {
 

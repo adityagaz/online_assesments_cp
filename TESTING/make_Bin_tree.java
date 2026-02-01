@@ -75,8 +75,8 @@ public class make_Bin_tree {
     private static long pow(long a,long b)           { long r=1; while(b>0){ if((b&1)==1) r=r*a%mod; a=a*a%mod; b>>=1;} return r; }
 
 private static void setupIO() throws Exception {
-    String inputPath  = "C:\Users\adity\Documents\DSA_OA\input.txt";
-    String outputPath = "C:\Users\adity\Documents\DSA_OA\output.txt";
+    String inputPath  = "C:\\Users\\adity\\Documents\\DSA_OA\\input.txt";
+    String outputPath = "C:\\Users\\adity\\Documents\\DSA_OA\\output.txt";
 
     System.setIn(new FileInputStream(inputPath));
     System.setOut(new PrintStream(new FileOutputStream(outputPath)));

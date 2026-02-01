@@ -1,4 +1,3 @@
-package BINARY_SEARCH.BS;
 
 import java.io.*;
 import java.util.*;

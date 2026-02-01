@@ -1,4 +1,4 @@
-package HASHING;
+
 import java.util.*;
 public class unique_three_length_palindrome_subsequence {
     public static void main(String[] args) {

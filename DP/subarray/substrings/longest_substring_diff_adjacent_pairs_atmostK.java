@@ -1,4 +1,4 @@
-package subarray.substrings;
+
 import java.util.*;
 public class longest_substring_diff_adjacent_pairs_atmostK {
     public static void main(String[] args) {

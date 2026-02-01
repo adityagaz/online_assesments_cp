@@ -1,4 +1,4 @@
-package BINARY_SEARCH.BS;
+
 import java.util.*;
 public class microsoft_oa {
 

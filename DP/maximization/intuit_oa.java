@@ -1,3 +1,4 @@
+package maximization;
 import java.io.*;
 import java.util.*;
 

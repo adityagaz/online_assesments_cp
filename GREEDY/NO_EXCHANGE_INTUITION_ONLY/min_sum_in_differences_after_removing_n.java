@@ -1,4 +1,4 @@
-package GREEDY.NO_EXCHANGE_INTUITION_ONLY;
+
 import java.util.*;
 public class min_sum_in_differences_after_removing_n {
 

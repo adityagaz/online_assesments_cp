@@ -1,4 +1,4 @@
-// package TREES;
+package TREES;
 // TOPICS - COMBINATORICS | TREES | CODEFORCES 1800 | DFS
 //https://codeforces.com/contest/2117/problem/F
 import java.io.*;

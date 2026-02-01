@@ -1,5 +1,4 @@
-package GREEDY.NO_EXCHANGE_INTUITION_ONLY;
- 
+
 import java.util.*;
 public class make_all_elements_zero_in_min_operations {
     public static void main(String[] args) {
