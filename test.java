@@ -45,7 +45,7 @@ static void solve(FastReader sc ) throws Exception {
 
     while(t-- > 0) {
 
-
+    	System.out.println("hiiiiii");
        
     }
 
