@@ -34,6 +34,7 @@ Small Observations:
 		then output string[0] + size + string[size -1] 
 	else return string
 
+    hi
 
 Logic :
 
