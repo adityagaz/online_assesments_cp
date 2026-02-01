@@ -1,15 +1,13 @@
-<snippet>
-  <content><![CDATA[
 import java.io.*;
 import java.util.*;
 
-public class ${TM_FILENAME/(.*)\..*/$1/} implements Runnable {
+public class test implements Runnable {
 final static long mod = 1_000_000_007L;
 static PrintWriter out;
 
 
 public static void main(String[] args) {
-    new Thread(null, new ${TM_FILENAME/(.*)\..*/$1/} (), "whatever", 1 << 30).start();
+    new Thread(null, new test (), "whatever", 1 << 30).start();
 }
 
 @Override
@@ -109,8 +107,3 @@ private static void setupIO() throws Exception {
         String nextLine(){ String str=""; try{ if(s!=null&&s.hasMoreTokens()) str=s.nextToken("\n"); else str=b.readLine(); } catch(IOException e){ e.printStackTrace(); } return str; }
     }
 }
-]]></content>
-  <tabTrigger>cpjava</tabTrigger>
-  <scope>source.java</scope>
-  <description>Full Java CP template with extended utilities & root‑dir I/O</description>
-</snippet>
