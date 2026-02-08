@@ -1,13 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-public class test implements Runnable {
+public class lc_test implements Runnable {
 final static long mod = 1_000_000_007L;
 static PrintWriter out;
 
 
 public static void main(String[] args) {
-    new Thread(null, new test (), "whatever", 1 << 30).start();
+    new Thread(null, new lc_test (), "whatever", 1 << 30).start();
 }
 
 @Override
@@ -30,13 +30,6 @@ public void run() {
 /*
 Small Observations:
 
-//leetcode 3828
-
-
-1 2 3 2 1 6 5 3 
-
-
-    
 
 Logic :
 
@@ -52,11 +45,26 @@ static void solve(FastReader sc ) throws Exception {
 
     while(t-- > 0) {
 
-    	System.out.println("hiiiiii");
+
        
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
