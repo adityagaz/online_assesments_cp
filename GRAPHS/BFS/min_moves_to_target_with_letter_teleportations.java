@@ -1,5 +1,5 @@
 // package BFS;
-
+//https://leetcode.com/problems/grid-teleportation-traversal/
 import java.io.*;
 import java.util.*;
 
@@ -35,8 +35,12 @@ class min_moves_to_target_with_letter_teleportations implements Runnable {
     Small Observations:
 
 
+    Easy version of the problem -- There can be harder version where all the alphabets are allowed
 
     idea here is 
+
+        meet in the middle...
+        
         we donot need to worry about hops between different same alphabets 
 
         start -> A - > A -> A -> anyother alphabet -> end 
@@ -44,12 +48,15 @@ class min_moves_to_target_with_letter_teleportations implements Runnable {
         start -> A -> A -> end
 
         think greedily..!!!
-        
+
 
         we can just compare 
         start -> any alphabet -> second occurrence -> end
 
         and that will do the job for us 
+
+
+
     Logic :
 
 
@@ -94,6 +101,10 @@ class min_moves_to_target_with_letter_teleportations implements Runnable {
             if(minMoves == (int)1e8) {
                 minMoves = distanceWithoutTeleportations;
             }
+
+
+            System.out.println(start_map);
+            System.out.println(end_map);
             System.out.println(minMoves);
         }
 
