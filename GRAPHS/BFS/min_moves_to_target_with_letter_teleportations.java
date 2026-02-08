@@ -35,6 +35,21 @@ class min_moves_to_target_with_letter_teleportations implements Runnable {
     Small Observations:
 
 
+
+    idea here is 
+        we donot need to worry about hops between different same alphabets 
+
+        start -> A - > A -> A -> anyother alphabet -> end 
+        will always incurr more moves than a simple 
+        start -> A -> A -> end
+
+        think greedily..!!!
+        
+
+        we can just compare 
+        start -> any alphabet -> second occurrence -> end
+
+        and that will do the job for us 
     Logic :
 
 
