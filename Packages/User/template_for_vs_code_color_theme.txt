@@ -1,0 +1,203 @@
+Cmd + Shift + P --> User Settings.JSON --> paste in the object
+
+
+// ---------- Core Theme & Typography ----------
+    "workbench.colorTheme": "Dracula Theme",
+    "editor.fontFamily": "Space Mono, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 15,
+    "editor.lineHeight": 24,
+    "editor.fontLigatures": false,
+    "terminal.integrated.fontFamily": "Space Mono, Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontSize": 14,
+
+    // ---------- 1. STOP Green Imports (The Fix) ----------
+    // This forces VS Code to use strictly your colors below, ignoring the Java extension's "Green" overrides.
+    "editor.semanticHighlighting.enabled": false,
+
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            // 1. The 'import' keyword -> Blue Italic
+            {
+                "scope": "keyword.control.import, keyword.other.import, keyword.control.package",
+                "settings": {
+                    "foreground": "#48BCD1E8",
+                    "fontStyle": "italic"
+                }
+            },
+            // 2. The package path (java.util.*) -> White
+            // Added explicit scopes for 'java', 'util', and 'io' to ensure they turn white
+            {
+                "scope": [
+                    "meta.import storage.type",
+                    "meta.import entity.name.type",
+                    "meta.import entity.name.package",
+                    "meta.package storage.type",
+                    "storage.modifier.package",
+                    "storage.modifier.import",
+                    "entity.name.package",
+                    "storage.type.java" 
+                ],
+                "settings": {
+                    "foreground": "#F1F1EDE8",
+                    "fontStyle": ""
+                }
+            },
+            // 3. Global Keywords (public, class, new) -> Pink/Red
+            {
+                "scope": "keyword, keyword.control, storage.type, storage.modifier, constant.language",
+                "settings": {
+                    "foreground": "#D02564E8",
+                    "fontStyle": ""
+                }
+            },
+            // 4. Primitive Types (void, long, int) -> Blue Italic
+            {
+                "scope": "storage.type.primitive, storage.type.built-in.primitive",
+                "settings": {
+                    "foreground": "#48BCD1E8",
+                    "fontStyle": "italic"
+                }
+            },
+            // 5. Class Names (cf_div2_34_b) -> Blue Italic
+            {
+                "scope": "entity.name.type, entity.name.class, support.class",
+                "settings": {
+                    "foreground": "#48BCD1E8",
+                    "fontStyle": "italic"
+                }
+            },
+            // 6. Methods (main, start, run) -> Blue Normal
+            {
+                "scope": "entity.name.function, meta.method-call, support.function, variable.function",
+                "settings": {
+                    "foreground": "#48BCD1E8",
+                    "fontStyle": ""
+                }
+            },
+            // 7. Variables -> White
+            {
+                "scope": "variable, variable.other, variable.parameter",
+                "settings": {
+                    "foreground": "#F1F1EDE8",
+                    "fontStyle": ""
+                }
+            },
+            // 8. Numbers -> Purple
+            {
+                "scope": "constant.numeric",
+                "settings": {
+                    "foreground": "#A583E0E8"
+                }
+            },
+            // 9. Strings -> Yellow
+            {
+                "scope": "string",
+                "settings": {
+                    "foreground": "#CDC059E8"
+                }
+            },
+            // 10. Punctuation -> White
+            {
+                "scope": "punctuation",
+                "settings": {
+                    "foreground": "#F1F1EDE8"
+                }
+            }
+        ]
+    },
+
+    "workbench.colorCustomizations": {
+        // 1. Hide Warning text color (make it white)
+        "list.warningForeground": "#F1F1EDE8",
+        // 2. Hide Git 'Modified' text color (make it white)
+        "gitDecoration.modifiedResourceForeground": "#F1F1EDE8",
+        // 3. (Optional) Hide Git 'New File' text color (make it white instead of green)
+        "gitDecoration.untrackedResourceForeground": "#F1F1EDE8",
+        // 4. FORCE Errors to remain Red
+        "list.errorForeground": "#dc4343e8",
+
+        // Core Backgrounds
+        "editor.background": "#1A1A1A",
+        "sideBar.background": "#1A1A1A",
+        "activityBar.background": "#1A1A1A",
+        "panel.background": "#1A1A1A",
+        "terminal.background": "#1A1A1A",
+        "editorGroupHeader.tabsBackground": "#1A1A1A",
+        "tab.activeBackground": "#1A1A1A",
+        "tab.inactiveBackground": "#1A1A1A",
+        "tab.border": "#1A1A1A",
+        "sideBar.border": "#1A1A1A",
+        "panel.border": "#1A1A1A",
+        "editorGroup.border": "#1A1A1A",
+
+        // Foregrounds
+        "editor.foreground": "#F1F1EDE8",
+        "sideBar.foreground": "#F1F1EDE8",
+        "activityBar.foreground": "#F1F1EDE8",
+        "statusBar.foreground": "#F1F1EDE8",
+        "titleBar.activeForeground": "#F1F1EDE8",
+        "tab.activeForeground": "#F1F1EDE8",
+        "tab.inactiveForeground": "#656353E8",
+
+        // Selection & Highlights
+        "editorCursor.foreground": "#F1F1ECE8",
+        "editor.selectionBackground": "#53544A99",
+        "editor.inactiveSelectionBackground": "#53544A66",
+
+        // Widgets
+        "editorWidget.background": "#252623",
+        "dropdown.background": "#252623",
+        "peekViewEditor.background": "#252623",
+        "peekViewResult.background": "#252623",
+
+        // Terminal ANSI
+        "terminal.ansiBlack": "#000000",
+        "terminal.ansiRed": "#D92626E8",
+        "terminal.ansiGreen": "#91BE37E8",
+        "terminal.ansiYellow": "#CDC059E8",
+        "terminal.ansiBlue": "#48BCD1E8",
+        "terminal.ansiMagenta": "#A583E0E8",
+        "terminal.ansiCyan": "#48BCD1E8",
+        "terminal.ansiWhite": "#F1F1EDE8",
+        "terminal.ansiBrightBlack": "#656353E8",
+        "terminal.ansiBrightRed": "#D02564E8",
+        "terminal.ansiBrightGreen": "#91BE37E8",
+        "terminal.ansiBrightYellow": "#EDD97DE8",
+        "terminal.ansiBrightBlue": "#48BCD1E8",
+        "terminal.ansiBrightMagenta": "#A583E0E8",
+        "terminal.ansiBrightCyan": "#48BCD1E8",
+        "terminal.ansiBrightWhite": "#F2F2F2E8",
+
+        "editor.lineHighlightBackground": "#00000000",
+        "editor.lineHighlightBorder": "#00000000",
+        "statusBar.background": "#101010",
+        "statusBar.noFolderBackground": "#101010",
+        "statusBar.border": "#101010",
+
+        // Top Title Bar -> RGB 16, 16, 16
+        "titleBar.activeBackground": "#101010",
+        "titleBar.inactiveBackground": "#101010",
+        "titleBar.border": "#101010",
+        // 1. Left Sidebar (RGB 16, 16, 16)
+        "sideBar.background": "#101010",
+        "sideBarSectionHeader.background": "#101010",
+        "activityBar.background": "#101010",
+        "sideBar.border": "#101010",
+
+        // 2. Editor (RGB 23, 23, 23)
+        "editor.background": "#171717",
+        "editorGroupHeader.tabsBackground": "#171717",
+        "tab.activeBackground": "#171717",
+        "tab.inactiveBackground": "#171717",
+        "tab.border": "#171717",
+        "breadcrumb.background": "#171717",
+
+        // 3. Terminal & Bottom Panel (RGB 22, 22, 22)
+        "panel.background": "#161616",
+        "terminal.background": "#161616",
+        "panel.border": "#161616",
+        
+        // ... (Widgets usually match terminal or editor) ...
+        "editorWidget.background": "#161616",
+        "peekViewResult.background": "#161616"
+    },
