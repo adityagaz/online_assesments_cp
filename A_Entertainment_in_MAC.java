@@ -1,5 +1,4 @@
 
-
 import java.io.*;
 import java.util.*;
 
@@ -46,7 +45,7 @@ class A_Entertainment_in_MAC implements Runnable {
         int t = 1;
 
         while (t-- > 0) {
-
+            
         }
 
     }
