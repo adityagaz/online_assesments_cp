@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Restaurant_Customers",
+      "request": "launch",
+      "mainClass": "Restaurant_Customers",
+      "projectName": "CP31_f62501fa"
+    },
+    {
+      "type": "java",
+      "name": "Book_Shop",
+      "request": "launch",
+      "mainClass": "Book_Shop",
+      "projectName": "CP31_f62501fa"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "cwd": "/home/aditya/Documents/COMPILER",
+      "program": "/home/aditya/Documents/COMPILER/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
