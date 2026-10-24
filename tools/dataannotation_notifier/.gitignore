@@ -1,0 +1,5 @@
+.env
+browser_profile/
+state.json
+last_page.html
+__pycache__/
