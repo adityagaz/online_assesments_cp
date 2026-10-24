@@ -153,11 +153,16 @@ def fetch_projects(page):
 
 
 def open_context(p, headless):
+    """Open the real installed Google Chrome (not Playwright's test browser),
+    with automation markers removed, so requests look like normal browsing."""
     PROFILE_DIR.mkdir(exist_ok=True)
     return p.chromium.launch_persistent_context(
         str(PROFILE_DIR),
+        channel="chrome",
         headless=headless,
-        viewport={"width": 1280, "height": 900},
+        no_viewport=True,
+        ignore_default_args=["--enable-automation"],
+        args=["--disable-blink-features=AutomationControlled", "--start-maximized"],
     )
 
 
